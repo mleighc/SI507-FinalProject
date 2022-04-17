@@ -44,14 +44,15 @@ def write_csv(filename, header, data):
 ##############################################################
 # #using the requests module to grab the xml data from the bgg api and then the xmltodict module to manipulate
 # #the xml as a json object
-r = requests.get('https://boardgamegeek.com/xmlapi/boardgame/174430')
+
+#FIRST: Retrieving items listed as HOT on bgg in order to recommend them as most popular
+r = requests.get('https://boardgamegeek.com/xmlapi2/hot?boardgame')
 obj = xmltodict.parse(r.text)
 # print(json.dumps(obj))
-game = json.loads(json.dumps(obj))['boardgames']['boardgame'] #converting nested ordereddict to a dict: https://www.geeksforgeeks.org/how-to-convert-a-nested-ordereddict-to-dict/
-print(type(game))
-# print(game)
-print(game.keys())
-# print(game)
+hot_items = json.loads(json.dumps(obj))['items']['item'] #converting nested ordereddict to a dict: https://www.geeksforgeeks.org/how-to-convert-a-nested-ordereddict-to-dict/
+for item in hot_items:
+    print(item)
+    print('\n')
 
 
 
