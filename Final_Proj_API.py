@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 import requests
 import csv
 import xmltodict, json
@@ -50,9 +49,18 @@ r = requests.get('https://boardgamegeek.com/xmlapi2/hot?boardgame')
 obj = xmltodict.parse(r.text)
 # print(json.dumps(obj))
 hot_items = json.loads(json.dumps(obj))['items']['item'] #converting nested ordereddict to a dict: https://www.geeksforgeeks.org/how-to-convert-a-nested-ordereddict-to-dict/
+# for item in hot_items:
+#     print(item)
+#     print('\n')
+hot_item_data = []
+d = {}
 for item in hot_items:
-    print(item)
-    print('\n')
+    for k,v in item.items():
+        d[k] = v
+    hot_item_data.append(d.copy())
+    d.clear()
+print(len(hot_item_data))
+print(hot_item_data)
 
 
 
