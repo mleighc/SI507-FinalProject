@@ -187,8 +187,11 @@ for item in bgg:
 print(len(bgg_list))
 # print(bgg_list[0])
 
+#just pulling a subset to be loaded into the tree - since 20k+ is too many for my computer to handle during testing
+bgg_subset = bgg_list[:1000:2]
 
-for item in bgg_list[:1000:2]:
+#looping over the subset to enhance their information with descriptions, images, category lists, and asses whether they are hot items.
+for item in bgg_subset:
     id = item['ID']
     r = requests.get(f'https://boardgamegeek.com/xmlapi/boardgame/{id}')
     obj = xmltodict.parse(r.text)
@@ -226,7 +229,7 @@ for item in bgg_list[:1000:2]:
 # #write bgg_list to json file
 ######
 filepath = 'bgg_list.json'
-write_json(filepath,bgg_list)
+write_json(filepath,bgg_subset)
 
 
 if __name__ == '__main__':
