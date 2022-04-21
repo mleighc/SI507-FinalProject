@@ -1,4 +1,3 @@
-from unicodedata import category
 import requests
 import csv
 import xmltodict, json
