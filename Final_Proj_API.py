@@ -202,14 +202,14 @@ for item in bgg_list[:1000:2]:
     image = obj_details['image']
     #categories are nested in a list of dictionaries
     categ = []
-    # try:
-    if isinstance(obj_details['boardgamecategory'],list):
-        for i in obj_details['boardgamecategory']:
-            categ.append(i['#text'])
-    else:
-        categ.append(obj_details['boardgamecategory']['#text'])
-    # except:
-    #     continue
+    try:
+        if isinstance(obj_details['boardgamecategory'],list):
+            for i in obj_details['boardgamecategory']:
+                categ.append(i['#text'])
+        else:
+            categ.append(obj_details['boardgamecategory']['#text'])
+    except KeyError:
+        categ = [None]
 
     item['Description'] = descr
     item['Image'] = image
