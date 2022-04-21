@@ -14527,13 +14527,41 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Data-Sources">Data Sources<a class="anchor-link" href="#Data-Sources">&#182;</a></h3><ul>
-<li><a href="https://www.kaggle.com/datasets/jvanelteren/boardgamegeek-reviews?select=games_detailed_info.csv">Kaggle Datasets of BoardGameGeek Reviews in CSV</a>    <ul>
-<li>At this link, there is a csv from 1.8.2022 of some game ratings data from BGG's website. </li>
-</ul>
-</li>
 <li><a href="https://boardgamegeek.com/wiki/page/BGG_XML_API2">BoardGameGeek XML API2</a>       <ul>
 <li>BGG's API which includes user and game ratings details.</li>
 <li>Will be using xmltodict to convert xml data to a dictionary for easier manipulation in python</li>
+<li>Able to access those same 20k+ boardgames with additional features such as:<blockquote><ul>
+<li>Description</li>
+<li>Full Image of Game Cover</li>
+<li>List of Honors</li>
+<li>Integrations</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><a href="https://www.kaggle.com/datasets/andrewmvd/board-games">Kaggle Dataset of Board Game Attributes</a>        <ul>
+<li>At this link, there is a csv of about 20k board games with 14 column attributes. </li>
+<li>20,344 rows of data with some of the following features: <blockquote><ul>
+<li>ID</li>
+<li>Year Published</li>
+<li>Min Players</li>
+<li>Max Players</li>
+<li>Play Time</li>
+<li>Min Age </li>
+<li>Rating Average</li>
+<li>Domains</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><a href="https://jvanelteren.github.io/blog/2022/01/19/boardgames.html">Diving into BoardGameGeek</a>.   <ul>
+<li>Article with insights on BGG's ratings just for some research/context</li>
+</ul>
+</li>
+<li><a href="https://www.kaggle.com/datasets/jvanelteren/boardgamegeek-reviews?select=games_detailed_info.csv">Kaggle Datasets of BoardGameGeek Reviews in CSV</a>    <ul>
+<li>At this link, there is a csv from 1.8.2022 of some game ratings data from BGG's website. It is a large file of all the data that can also be accessed via the API.</li>
 </ul>
 </li>
 <li><a href="https://boardgamegeek.com/wiki/page/ratings">BoardGameGeek Data Dictionary on Ratings</a>      <ul>
@@ -14544,28 +14572,30 @@ a.anchor-link {
 <li>This is a link to BGG's Terms of Service for the data for my reference.</li>
 </ul>
 </li>
-<li><a href="https://www.kaggle.com/datasets/andrewmvd/board-games">Kaggle Dataset of Board Game Attributes</a>        <ul>
-<li>At this link, there is a csv of about 20k board games with 14 column attributes. </li>
 </ul>
-</li>
-<li><a href="https://jvanelteren.github.io/blog/2022/01/19/boardgames.html">Diving into BoardGameGeek</a>.   <ul>
-<li>Article with insights on BGG's ratings just for some research/context</li>
-</ul>
-</li>
-</ul>
-<h3 id="Caching">Caching<a class="anchor-link" href="#Caching">&#182;</a></h3><p>Saving the xml data to json and will enhance these json objects with additional data accessed from the kaggle csv file. All data sourced from Board Game Geek's website. This example json file includes boardgames that are considered "hot" or currently most popular. I want to enhance this information with additional attributes like 'min no. players', 'min or max age', 'ratings', etc. This way I won't have to keep making API calls since the data will combined and cached in a json file to be loaded into my tree structure.<br>
-<img src="json_save.png" alt="json cache"></p>
+<h3 id="Caching">Caching<a class="anchor-link" href="#Caching">&#182;</a></h3><p>I have saved the XML API data to json and have enhanced these json objects with additional data accessed from the kaggle csv file as well as additional API calls using other available parameters. All data is sourced from Board Game Geek's website. The below example json file outputs include boardgames that are considered "hot" or currently most popular on BGG's website, as well as a snapshot of the larger subset of data that I compiled from the API calls and csv. I have enhanced this information with additional attributes like 'min no. players', 'min or max age', 'ratings', etc. Accessing the data from this json file, I will not be required to recall any of the API requests in order to access data for the user. I have also included snapshots of my code for compiling these json files.</p>
+<h3 id="Hot-Items-Test-JSON-object">Hot Items Test JSON object<a class="anchor-link" href="#Hot-Items-Test-JSON-object">&#182;</a></h3><p><img src="hot_bgg_json.png" alt="hot_bgg_json"></p>
+<h3 id="Hot-Items-Test-JSON-object-code">Hot Items Test JSON object code<a class="anchor-link" href="#Hot-Items-Test-JSON-object-code">&#182;</a></h3><p><img src="hot_items.png" alt="hot_items"></p>
+<h3 id="Subset-of-1500-BGG-records-written-to-json">Subset of 1500 BGG records written to json<a class="anchor-link" href="#Subset-of-1500-BGG-records-written-to-json">&#182;</a></h3><p><img src="subset_json.png" alt="subset_json"></p>
+<h3 id="Code-for-Subset-of-1500-BGG-records-written-to-json">Code for Subset of 1500 BGG records written to json<a class="anchor-link" href="#Code-for-Subset-of-1500-BGG-records-written-to-json">&#182;</a></h3><p><img src="data_compiling.png" alt="data_compiling"></p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Data-Structure">Data Structure<a class="anchor-link" href="#Data-Structure">&#182;</a></h3>
+<h3 id="Data-Structure">Data Structure<a class="anchor-link" href="#Data-Structure">&#182;</a></h3><p>I am planning to use a question and answer structure, somewhat similar to 20 questions. If I can categorize the data and set up a tree (maybe in tuples or maybe by instantiating a class), I want to formulate particular yes/no or categorical questions for users to navigate through the tree and narrow their search down to the ideal boardgame for them. I am starting this with a subset of the 20k+ boardgames to spare my computer. I may not go beyond this initial subset test data, but hope that I'd have my tree set up for any number of input data ultimately. I want the user to be able to answer questions, such as "Are you looking for the most popular boardgames right now?" for which I have a categorical variable of 'Hot Item?' to indicate if the items are present on BGG's most popular game list. Separately, I am hoping explore options of parsing the tree based on features like "Age" or "Amount of Play Time", so that users can get down to narrower and narrower lists of boardgames to pick from. Because cleaning, accessing, and compiling my data has taken longer than expected I do not yet have code to show for the tree structure, but that is my next step starting immediately.</p>
+
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Interaction-and-Presentation-Plans">Interaction and Presentation Plans<a class="anchor-link" href="#Interaction-and-Presentation-Plans">&#182;</a></h3>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For now, I believe the user will interface with the program via the command line and have a series of questions that they will answer until they ultimately receive their suggested board game. The final output ideally will be a description of the game as it is provided by Board Game Geek. I'd also like them to have immediate access to an image of the board game cover, which would open for them in a webbrowser. Depending on time, I may explore options of presenting the interactive aspect of the question/answer output using Flask. For now, though, my intention is to use command line only, doing my best to pretty print the output, as well as using the webbrowser module to give the user access to the cover image and potentially additional links for accessing game information depending on what else I find that is available via BGG's API.</p>
+
 </div>
 </div>
 </body>
