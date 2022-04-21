@@ -8,27 +8,27 @@ import xmltodict, json
 ####################################
 
 #a couple of helper functions below (write_json and write_dicts_to_csv) borrowed from SI506 Problem Sets written by Anthony Whyte
-def read_csv(filepath, encoding='utf-8', newline='', delimiter=','):
-    """
-    Reads a CSV file, parsing row values per the provided delimiter. Returns a list
-    of lists, wherein each nested list represents a single row from the input file.
+def read_csv_to_dicts(filepath, encoding='utf-8-sig', newline='', delimiter=';'):
+    """Accepts a file path, creates a file object, and returns a list of
+    dictionaries that represent the row values using the cvs.DictReader().
 
     Parameters:
-        filepath (str): The location of the file to read.
-        encoding (str): name of encoding used to decode the file.
+        filepath (str): path to file
+        encoding (str): name of encoding used to decode the file
         newline (str): specifies replacement value for newline '\n'
-                       or '\r\n' (Windows) character sequences.
+                       or '\r\n' (Windows) character sequences
         delimiter (str): delimiter that separates the row values
 
     Returns:
-        list: a list of nested "row" lists
-    """
+        list: nested dictionaries representing the file contents
+     """
 
-    with open(filepath, 'r', encoding=encoding, newline=newline) as file_obj:
+    with open(filepath, 'r', newline=newline, encoding=encoding) as file_obj:
         data = []
-        reader = csv.reader(file_obj, delimiter=delimiter)
-        for row in reader:
-            data.append(row)
+        reader = csv.DictReader(file_obj, delimiter=delimiter)
+        for line in reader:
+            data.append(line) # OrderedDict()
+            # data.append(dict(line)) # convert OrderedDict() to dict
 
         return data
 
@@ -51,6 +51,13 @@ def write_json(filepath, data, encoding='utf-8', ensure_ascii=False, indent=2):
 
     with open(filepath, 'w', encoding=encoding) as file_obj:
         json.dump(data, file_obj, ensure_ascii=ensure_ascii, indent=indent)
+
+def clean_string(value):
+    '''DOCSTRING!'''
+    value= value.replace('<br/><br/>', ' ')
+    value=value.replace('&ldquo;', '\'')
+    value=value.replace('&rdquo;', '\'')
+    return value
 
 
 def main():
@@ -123,21 +130,98 @@ for item in hot_item_data:
 
 
     ###update the item's dictionary with these added features
-    item['description'] = descr
-    item['image'] = image
-    item['category_list'] = categ
-
-######
-#Read in bgg_dataset.csv to continue to enhance board game data
-filepath = 'bgg_dataset.csv'
-bgg = read_csv(filepath)
-print(len(bgg))
+    item['Description'] = descr
+    item['Image'] = image
+    item['Category_list'] = categ
 
 ######
 # #write hot_item_data to json file
 ######
-# filepath = 'hot_boardgames.json'
-# write_json(filepath,hot_item_data)
+filepath = 'hot_boardgames.json'
+write_json(filepath,hot_item_data)
+
+MY_FIELDS = [
+    'ID',
+    'Name',
+    'Year Published',
+    'Min Players',
+    'Max Players',
+    'Play Time',
+    'Min Age',
+    'Rating Average',
+    'Complexity Average',
+    'Domains'
+]
+
+######
+# NEXT: read in the bgg_dataset.csv, remove the unnecessary field and add some from the API that are more interesting (i.e. I want to try to display the image files for users when they pick a game)
+######
+#Read in bgg_dataset.csv to continue to enhance board game data
+filepath = 'bgg_dataset.csv'
+bgg = read_csv_to_dicts(filepath)
+# print(bgg[0])
+
+######
+# Grabbing only the fields I want
+######
+bgg_list = []
+d = {}
+for item in bgg:
+    for key,val in item.items():
+        if key in MY_FIELDS:
+            d[key] = val
+        if key == 'Domains':
+            d[key] = val.split(',')
+    bgg_list.append(d.copy())
+    d.clear()
+# print(met_dog_data)
+print(len(bgg_list))
+print(bgg_list[0])
+
+
+for item in bgg_list[:500:2]:
+    id = item['ID']
+    r = requests.get(f'https://boardgamegeek.com/xmlapi/boardgame/{id}')
+    obj = xmltodict.parse(r.text)
+    obj_details = json.loads(json.dumps(obj))['boardgames']['boardgame']
+    # print(obj_details)
+
+    #description needs to be cleaned since it has line breaks indicated as <br>
+    descr = obj_details['description']
+    descr = clean_string(descr)
+    #image URL
+    image = obj_details['image']
+    #categories are nested in a list of dictionaries
+    categ = []
+    try:
+        if isinstance(obj_details['boardgamecategory'],list):
+            for i in obj_details['boardgamecategory']:
+                categ.append(i['#text'])
+        else:
+            categ.append(obj_details['boardgamecategory']['#text'])
+    except:
+        continue
+
+    item['Description'] = descr
+    item['Image'] = image
+    item['Category_list'] = categ
+
+print(bgg_list[0])
+
+
+
+
+######
+# #write hot_item_data to json file
+######
+filepath = 'hot_boardgames.json'
+write_json(filepath,hot_item_data)
+
+######
+# #write bgg_list to json file
+######
+filepath = 'bgg_list.json'
+write_json(filepath,bgg_list)
 
 
 if __name__ == '__main__':
