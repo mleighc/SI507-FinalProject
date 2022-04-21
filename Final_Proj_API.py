@@ -103,6 +103,16 @@ for item in hot_items:
 print(len(hot_item_data))
 # print(hot_item_data)
 
+
+#####
+#Grabbing names of hot items to be able to indicate their hot item field as 1 in the later dataset
+#####
+hot_name_list = []
+for name in hot_item_data:
+    hot_name_list.append(name['name'])
+print(hot_name_list)
+
+
 ######
 # NEXT: Enhance the data in this dictionary with additional features from BGG API, access individual HOT boardgames by their ID
 ######
@@ -175,10 +185,10 @@ for item in bgg:
     d.clear()
 # print(met_dog_data)
 print(len(bgg_list))
-print(bgg_list[0])
+# print(bgg_list[0])
 
 
-for item in bgg_list[:500:2]:
+for item in bgg_list[:1000:2]:
     id = item['ID']
     r = requests.get(f'https://boardgamegeek.com/xmlapi/boardgame/{id}')
     obj = xmltodict.parse(r.text)
@@ -192,29 +202,25 @@ for item in bgg_list[:500:2]:
     image = obj_details['image']
     #categories are nested in a list of dictionaries
     categ = []
-    try:
-        if isinstance(obj_details['boardgamecategory'],list):
-            for i in obj_details['boardgamecategory']:
-                categ.append(i['#text'])
-        else:
-            categ.append(obj_details['boardgamecategory']['#text'])
-    except:
-        continue
+    # try:
+    if isinstance(obj_details['boardgamecategory'],list):
+        for i in obj_details['boardgamecategory']:
+            categ.append(i['#text'])
+    else:
+        categ.append(obj_details['boardgamecategory']['#text'])
+    # except:
+    #     continue
 
     item['Description'] = descr
     item['Image'] = image
     item['Category_list'] = categ
+    #check if boardgame in list of "hot items", default is 0 (False)
+    item['Hot Item?'] = 0
+    if item["Name"] in hot_name_list:
+        item['Hot Item?'] += 1
 
-print(bgg_list[0])
+# print(bgg_list[0])
 
-
-
-
-######
-# #write hot_item_data to json file
-######
-filepath = 'hot_boardgames.json'
-write_json(filepath,hot_item_data)
 
 ######
 # #write bgg_list to json file
