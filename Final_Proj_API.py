@@ -222,7 +222,7 @@ for item in bgg_subset:
     if item["Name"] in hot_name_list:
         item['Hot Item?'] += 1
 
-# print(bgg_list[0])
+print(len(bgg_subset))
 
 
 ######
