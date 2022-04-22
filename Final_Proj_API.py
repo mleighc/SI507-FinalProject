@@ -58,7 +58,6 @@ def clean_string(value):
     value=value.replace('&rdquo;', '\'')
     return value
 
-
 def main():
     '''DOCSTRING!'''
     # data = read_csv('bgg_dataset.csv')
