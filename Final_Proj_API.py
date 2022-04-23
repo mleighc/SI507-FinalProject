@@ -254,7 +254,7 @@ print(len(bgg_subset))
 
 
 ######
-#write bgg_list to json file
+#write bgg_list to json file to be read into file for implmening tree
 ######
 filepath = 'bgg_list.json'
 write_json(filepath,bgg_subset)

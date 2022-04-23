@@ -27,6 +27,23 @@ class TreeNode:
         else:
             self.val = val
 
+def main():
+    '''
+    DOCSTRING!
+    '''
+    root = TreeNode(10)
+    root.printTree()
 
-root = TreeNode(10)
-root.printTree()
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    main()
