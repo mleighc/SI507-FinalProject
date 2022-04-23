@@ -77,8 +77,8 @@ def clean_json(json_obj):
             json_obj[k]=json_obj[k].replace('&ldquo;', '\'')
             json_obj[k]=json_obj[k].replace('&rdquo;', '\'')
         if k == "Domains":
-            for it in json_obj[k]:
-                it=it.strip()
+            for i in range(len(json_obj[k])):
+                json_obj[k][i]=json_obj[k][i].strip()
     return json_obj
 
 def main():
