@@ -67,7 +67,11 @@ def write_json(filepath, data, encoding='utf-8', ensure_ascii=False, indent=2):
 
 def clean_json(json_obj):
     '''
-    DOCSTRING!
+    Accepts a json object and iterates through the keys to clean up the necessary values i.e. comma separated numbers to floats, removing html entities from strings, and stripping string values
+    parameters:
+        json_obj: a json object
+    returns:
+        json_obj: the same json object with cleaned values
     '''
     for k in json_obj.keys():
         if k in ('Rating Average', 'Complexity Average'):
