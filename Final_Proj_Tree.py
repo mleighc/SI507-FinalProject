@@ -48,15 +48,22 @@ def main():
     '''
     DOCSTRING!
     '''
+    #read in the bgg_list json file prepped in Final_Proj_API.py
     filepath = 'bgg_list.json'
     bgg_list = read_json(filepath)
     print(bgg_list[0])
 
+    #what's the range of Max/Min Player counts?
     max_of_max_players = 0
     min_of_min_players = float(inf)
     for item in bgg_list:
-        if int(item['Max Players']) > max_of_max_players:
-            max_of_max_players = int(item['Max Players'])
+        if item['Max Players'] >= max_of_max_players:
+            max_of_max_players = item['Max Players']
+        if item['Min Players'] <= min_of_min_players:
+            min_of_min_players = item['Min Players']
+    print(f'Highest Max Players Count: {max_of_max_players}')
+    print(f'Lowest Min Players Count: {min_of_min_players}')
+
 
 
 
