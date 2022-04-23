@@ -99,7 +99,7 @@ for item in hot_items:
     d['type'] = 'boardgame'
     hot_item_data.append(d.copy()) #creating a list of dictionaries
     d.clear() #emptying the dict to start on the next dictionary to be appended
-print(len(hot_item_data))
+# print(len(hot_item_data))
 # print(hot_item_data)
 
 
@@ -109,7 +109,7 @@ print(len(hot_item_data))
 hot_name_list = []
 for name in hot_item_data:
     hot_name_list.append(name['name'])
-print(hot_name_list)
+# print(hot_name_list)
 
 
 ######
@@ -183,11 +183,11 @@ for item in bgg:
     bgg_list.append(d.copy())
     d.clear()
 # print(met_dog_data)
-print(len(bgg_list))
+# print(len(bgg_list))
 # print(bgg_list[0])
 
 #just pulling a subset to be loaded into the tree - since 20k+ is too many for my computer to handle during testing
-bgg_subset = bgg_list[:000:2]
+bgg_subset = bgg_list[:1000:2]
 
 #looping over the subset to enhance their information with descriptions, images, category lists, and asses whether they are hot items.
 for item in bgg_subset:
