@@ -8,20 +8,20 @@ class TreeNode:
             self.val = None
         self.left = None
         self.right = None
+
     def printTree(self):
         print(self.val)
-
 
     def insert(self, val):
         if self.val:
             if val < self.val:
                     if self.left is None:
-                        self.left = Tree(val)
+                        self.left = TreeNode(val)
                     else:
                         self.left.insert(val)
             elif val > self.val:
                     if self.right is None:
-                        self.right = Tree(val)
+                        self.right = TreeNode(val)
                     else:
                         self.right.insert(val)
         else:

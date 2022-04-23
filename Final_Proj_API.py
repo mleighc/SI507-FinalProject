@@ -69,11 +69,17 @@ def clean_json(json_obj):
     '''
     DOCSTRING!
     '''
-    for k,v in json_obj.items():
+    for k in json_obj.keys():
+        if k in ('Rating Average', 'Complexity Average'):
+            json_obj[k]=json_obj[k].replace(',', '.')
         if k == "Description":
-            v= v.replace('<br/><br/>', ' ')
-            v=v.replace('&ldquo;', '\'')
-            v=v.replace('&rdquo;', '\'')
+            json_obj[k]=json_obj[k].replace('<br/><br/>', ' ')
+            json_obj[k]=json_obj[k].replace('&ldquo;', '\'')
+            json_obj[k]=json_obj[k].replace('&rdquo;', '\'')
+        if k == "Domains":
+            for it in json_obj[k]:
+                it=it.strip()
+    return json_obj
 
 def main():
     '''DOCSTRING!'''
@@ -216,7 +222,6 @@ for item in bgg_subset:
 
     #description needs to be cleaned since it has line breaks indicated as <br>
     descr = obj_details['description']
-    descr = clean_string(descr)
     #image URL
     image = obj_details['image']
     #categories are nested in a list of dictionaries
@@ -237,6 +242,9 @@ for item in bgg_subset:
     item['Hot Item?'] = 0
     if item["Name"] in hot_name_list:
         item['Hot Item?'] += 1
+
+    #clean the json object
+    clean_json(item)
 
 print(len(bgg_subset))
 
