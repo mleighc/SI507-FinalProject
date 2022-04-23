@@ -51,12 +51,29 @@ def write_json(filepath, data, encoding='utf-8', ensure_ascii=False, indent=2):
     with open(filepath, 'w', encoding=encoding) as file_obj:
         json.dump(data, file_obj, ensure_ascii=ensure_ascii, indent=indent)
 
-def clean_string(value):
-    '''DOCSTRING!'''
-    value= value.replace('<br/><br/>', ' ')
-    value=value.replace('&ldquo;', '\'')
-    value=value.replace('&rdquo;', '\'')
-    return value
+##including this function within the one below instead
+# def clean_string(value):
+#     '''
+#     Accepts a string value and replaces HTML entities with spaces or quotations
+#     parameters:
+#         value: a string to be cleaned
+#     returns:
+#         value: the same string with the HTML entities removed
+#         '''
+#     value= value.replace('<br/><br/>', ' ')
+#     value=value.replace('&ldquo;', '\'')
+#     value=value.replace('&rdquo;', '\'')
+#     return value
+
+def clean_json(json_obj):
+    '''
+    DOCSTRING!
+    '''
+    for k,v in json_obj.items():
+        if k == "Description":
+            v= v.replace('<br/><br/>', ' ')
+            v=v.replace('&ldquo;', '\'')
+            v=v.replace('&rdquo;', '\'')
 
 def main():
     '''DOCSTRING!'''
