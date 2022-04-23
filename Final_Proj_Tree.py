@@ -1,4 +1,5 @@
-# import Final_Proj_API as fpa
+from cmath import inf
+import json
 
 class TreeNode:
     def __init__(self, val=None):
@@ -27,12 +28,35 @@ class TreeNode:
         else:
             self.val = val
 
+#helper function referenced from SI506 lectures
+def read_json(filepath, encoding='utf-8'):
+    """Reads a JSON document, decodes the file content, and returns a list or
+    dictionary if provided with a valid filepath.
+
+    Parameters:
+        filepath (str): path to file
+        encoding (str): name of encoding used to decode the file
+
+    Returns:
+        dict/list: dict or list representations of the decoded JSON document
+    """
+
+    with open(filepath, 'r', encoding=encoding) as file_obj:
+        return json.load(file_obj)
+
 def main():
     '''
     DOCSTRING!
     '''
-    root = TreeNode(10)
-    root.printTree()
+    filepath = 'bgg_list.json'
+    bgg_list = read_json(filepath)
+    print(bgg_list[0])
+
+    max_of_max_players = 0
+    min_of_min_players = float(inf)
+    for item in bgg_list:
+        if int(item['Max Players']) > max_of_max_players:
+            max_of_max_players = int(item['Max Players'])
 
 
 

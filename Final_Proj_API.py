@@ -66,7 +66,7 @@ def write_json(filepath, data, encoding='utf-8', ensure_ascii=False, indent=2):
 #     return value
 
 def clean_json(json_obj):
-    '''
+    ''' 
     Accepts a json object and iterates through the keys to clean up the necessary values i.e. comma separated numbers to floats, removing html entities from strings, and stripping string values
     parameters:
         json_obj: a json object
@@ -76,6 +76,9 @@ def clean_json(json_obj):
     for k in json_obj.keys():
         if k in ('Rating Average', 'Complexity Average'):
             json_obj[k]=json_obj[k].replace(',', '.')
+            json_obj[k]=float(json_obj[k])
+        if k in ('ID','Year Published', 'Min Players','Max Players','Play Time','Min Age'):
+            json_obj[k]=int(json_obj[k])
         if k == "Description":
             json_obj[k]=json_obj[k].replace('<br/><br/>', ' ')
             json_obj[k]=json_obj[k].replace('&ldquo;', '\'')
