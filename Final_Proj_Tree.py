@@ -102,8 +102,8 @@ def main():
         if item['Max Players'] == 1:
             solitary_games_names.append((item['Name'], item['Play Time'], item['Domains'], item['Complexity Average']))
             solitary_games.append(item)
-    print(f'List of Solitary Games for 1 Player Names: {solitary_games_names}')
-    print(f'Count of dictionaries with Solitary Games Attributes:{len(solitary_games)}')
+    # print(f'List of Solitary Games for 1 Player Names: {solitary_games_names}')
+    # print(f'Count of dictionaries with Solitary Games Attributes:{len(solitary_games)}')
 
     #####LONG SOLO GAMES
     long_solo = []
@@ -112,7 +112,7 @@ def main():
     for item in solitary_games:
         if item['Play Time'] > 60:
             long_solo.append(item)
-    print(f'Long Solo Games: {long_solo}')
+    # print(f'Long Solo Games: {long_solo}')
 
     # solitary_types = set()
     # for item in solitary_games:
@@ -130,9 +130,9 @@ def main():
     multiplayer_names = []
     for item in bgg_list:
         if item['Max Players'] > 1:
-            multiplayer_names.append(item['Name'])
+            multiplayer_names.append((item['Name'], item['Play Time'], item['Domains'], item['Complexity Average']))
             multiplayer.append(item)
-    # print(f'List of Multiplayer Games for Friends Names: {multiplayer_names}')
+    print(f'List of Multiplayer Games for Friends Names: {multiplayer_names}')
     # print(f'Count of dictionaries with Multiplayer Games Attributes:{len(multiplayer)}')
 
     multiplayer_types = set()
@@ -144,31 +144,6 @@ def main():
     ####################
     ##Loading the Tree##
     ####################
-    tree = [
-        'Are you looking for a game to play solo or with others?', #root A
-        [
-            'Do you prefer Strategy or Thematic Games?', #subTree1 Solo/1Player B
-            [
-                'Placeholder:Strategy',#leftTree Strategy Games D
-                [
-                    'Difficult or Easy?',
-                    ['Placeholder:List of Easy'],
-                    ['Placeholder: List of Difficult']
-                ],[], 
-            [
-                'Placeholder:Thematic',# rightTree Thematic Games E
-                [
-                    'Difficult or Easy?',
-                    ['Placeholder:List of Easy'],
-                    ['Placeholder: List of Difficult']
-        ],
-        [
-            'Are you with Friends or Family?', #subTree1 With Others/Multiplayer C
-            ['Placeholder:Friends',[],[]], #F
-            ['Placeholder:Family',[],[]] #G
-        ]
-        ]]]]
-
     '''Notes for me:
     I want to set up the tree by nesting each of the subtrees with a question and then the resulting question or game suggestion,
     then I want to prep and store the filtered data into variables and add them into their respective locations in the tree structures.
@@ -179,17 +154,17 @@ def main():
 
     ['',[],[]] #1 tree
 
-    tree = ['a: Are you looking for a game to play solo or with others?',
+    tree = [
+        'a: Are you looking for a game to play solo or with others?',
     ['b: Do you have time for a short or a long game?',
     ['d: Do you prefer thematic or strategy games?',['h: Select a game from the list below to view the description and cover image: ',['THEMATIC GAME VARIABLE'],[]],['i:Select a game from the list below to view the description and cover image: ',['STRATEGIC GAME VARIABLE'],[]]],
-    ['e',[],[]]],
-    
-    ['c',
-    ['f',
-    ['k',['o',[],[]],['p',[],[]]],
-    ['l',['q',[],[]],['r',[],[]]]],
-    ['g',['m',['s',[],[]],['t',[],[]]],
-    ['n',['u',[],[]],['v',[],[]]]]]]
+    ['e: Enter the Game ID to view the description and cover image: ',["LONG SOLO GAME VARIABLE"],[]]],
+    ['c: Are you with Friends or Family? ',
+    ['f: Do you prefer Strategic or Customizable Games? ',['k: Do you want a challenge? ',['Enter the Game ID to view the descrition and cover image: ',['STRATEGIC DIFFICULT LIST'],[]],['Enter the Game ID to view the descrition and cover image: ',["STRATEGIC EASY LIST"],[]]],
+    ['l: Do you want a challenge? ',['q: Enter the Game ID to view the descrition and cover image: ',['CUSTOM DIFFICULT LIST'],[]],['r: Enter the Game ID to view the descrition and cover image: ',['CUSTOM EASY LIST'],[]]]],
+    ['g: Are there children in your group? ',['m: Do you want a challenge? ',['s: Enter the Game ID to view the descrition and cover image: ',['FAMILY DIFFICULT LIST'],[]],['t: Enter the Game ID to view the descrition and cover image: ',['FAMILY EASY LIST'],[]]],
+    ['n: Do you want a challenge? ',['u: Enter the Game ID to view the descrition and cover image: ',['FAMILY GAMES DIFFICULT LIST'],[]],['v: Enter the Game ID to view the descrition and cover image: ',['FAMILY GAMES EASY LIST'],[]]]]]
+    ]
 
 
 
