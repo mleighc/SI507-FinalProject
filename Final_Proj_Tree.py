@@ -105,11 +105,20 @@ def main():
     print(f'List of Solitary Games for 1 Player Names: {solitary_games_names}')
     print(f'Count of dictionaries with Solitary Games Attributes:{len(solitary_games)}')
 
-    solitary_types = set()
+    #####LONG SOLO GAMES
+    long_solo = []
+    #long = over an hour?
+    #short = under an hour?
     for item in solitary_games:
-        for t in item['Domains']:
-            solitary_types.add(t)
-    print(f'Types of Solitary Games: {solitary_types}')
+        if item['Play Time'] > 60:
+            long_solo.append(item)
+    print(f'Long Solo Games: {long_solo}')
+
+    # solitary_types = set()
+    # for item in solitary_games:
+    #     for t in item['Domains']:
+    #         solitary_types.add(t)
+    # print(f'Types of Solitary Games: {solitary_types}')
 
     ######################
     ##Parsing MULTI GAMES##
@@ -168,13 +177,19 @@ def main():
 
     # print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
 
+    ['',[],[]] #1 tree
 
-    tree = [
-        'a: Are you looking for a game to play solo or with others?',
-        [
-            'b: Are you with friends or family members?',
-            ['d: Are you looking for a Party Game or ']
-        ]
+    tree = ['a',
+    ['b',
+    ['d',['h',[],[]],['i',[],[]]],
+    ['e',['j',[],[]],[]]],
+    
+    ['c',
+    ['f',
+    ['k',['o',[],[]],['p',[],[]]],
+    ['l',['q',[],[]],['r',[],[]]]],
+    ['g',['m',['s',[],[]],['t',[],[]]],
+    ['n',['u',[],[]],['v',[],[]]]]]]
 
 
 
