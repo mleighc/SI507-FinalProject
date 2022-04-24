@@ -52,13 +52,17 @@ def main():
     ##Analyzing the Data and Prepping it for Tree##
     ###############################################
 
-    #####READ IN THE DATA
+    ##########################
+    #####READ IN THE DATA#####
+    ##########################
     #read in the bgg_list json file prepped in Final_Proj_API.py
     filepath = 'bgg_list.json'
     bgg_list = read_json(filepath)
     # print(bgg_list[0])
-
-    #####MAX PLAYER COUNTS
+    
+    ##########################
+    #####MAX PLAYER COUNTS####
+    ##########################
     #what's the range of Max/Min Player counts?
     max_of_max_players = 0
     min_of_min_players = float(inf)
@@ -113,12 +117,27 @@ def main():
         if item['Play Time'] > 60:
             long_solo.append(item)
     # print(f'Long Solo Games: {long_solo}')
+    # print(f'Long Solo Games Count: {len(long_solo)}')
 
-    # solitary_types = set()
-    # for item in solitary_games:
-    #     for t in item['Domains']:
-    #         solitary_types.add(t)
-    # print(f'Types of Solitary Games: {solitary_types}')
+    #####SHORT SOLO THEMATIC/STRATEGIC GAMES
+    short_solo = []
+    #long = over an hour?
+    #short = under an hour?
+    for item in solitary_games:
+        if item['Play Time'] < 60:
+            short_solo.append(item)
+    
+    short_solo_theme = []
+    short_solo_strat = []
+    for item in short_solo:
+        for t in item['Domains']:
+            if t == 'Thematic Games':
+                short_solo_theme.append(item)
+            if t == 'Strategy Games':
+                short_solo_strat.append(item)
+    # print(f'Short Solo Thematic Games Count: {len(short_solo_theme)}')
+    # print(f'Short Solo Strategic Games Count: {len(short_solo_strat)}')
+
 
     ######################
     ##Parsing MULTI GAMES##
@@ -132,13 +151,47 @@ def main():
         if item['Max Players'] > 1:
             multiplayer_names.append((item['Name'], item['Play Time'], item['Domains'], item['Complexity Average']))
             multiplayer.append(item)
-    print(f'List of Multiplayer Games for Friends Names: {multiplayer_names}')
+    # print(f'List of Multiplayer Games for Friends Names: {multiplayer_names}')
     # print(f'Count of dictionaries with Multiplayer Games Attributes:{len(multiplayer)}')
 
-    multiplayer_types = set()
+    #####Parsing Strategic and Customizable Multiplayer Games
+    strat_multi = []
+    custom_multi = []
     for item in multiplayer:
         for t in item['Domains']:
-            multiplayer_types.add(t)
+            if t == 'Strategy Games':
+                strat_multi.append(item)
+            elif t == 'Customizable Games':
+                custom_multi.append(item)
+    print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
+    print(f'Count of dictionaries with Multiplayer Customizable Games:{len(custom_multi)}')
+
+    ######Parsing Diff/Easy Multiplayer Strategy Games
+    strat_diff_multi = []
+    strat_easy_multi = []
+    for item in strat_multi:
+        if item['Complexity Average'] > 2.5:
+            strat_diff_multi.append(item)
+        if item['Complexity Average'] < 2.5:
+            strat_easy_multi.append(item)
+    print(f'Count of dictionaries with Multiplayer Difficult Strategy Games:{len(strat_diff_multi)}')
+    print(f'Count of dictionaries with Multiplayer Easy Strategy Games:{len(strat_easy_multi)}')
+
+    ######Parsing Diff/Easy Multiplayer Customizable Games
+    custom_diff_multi = []
+    custom_easy_multi = []
+    for item in custom_multi:
+        if item['Complexity Average'] > 2.5:
+            custom_diff_multi.append(item)
+        if item['Complexity Average'] < 2.5:
+            custom_easy_multi.append(item)
+    print(f'Count of dictionaries with Multiplayer Difficult Customizable Games:{len(custom_diff_multi)}')
+    print(f'Count of dictionaries with Multiplayer Easy Customizable Games:{len(custom_easy_multi)}')
+
+    # multiplayer_types = set()
+    # for item in multiplayer:
+    #     for t in item['Domains']:
+    #         multiplayer_types.add(t)
     # print(f'Types of Multiplayer Games: {multiplayer_types}')
 
     ####################
@@ -157,13 +210,13 @@ def main():
     tree = [
         'a: Are you looking for a game to play solo or with others?',
     ['b: Do you have time for a short or a long game?',
-    ['d: Do you prefer thematic or strategy games?',['h: Select a game from the list below to view the description and cover image: ',['THEMATIC GAME VARIABLE'],[]],['i:Select a game from the list below to view the description and cover image: ',['STRATEGIC GAME VARIABLE'],[]]],
-    ['e: Enter the Game ID to view the description and cover image: ',["LONG SOLO GAME VARIABLE"],[]]],
+    ['d: Do you prefer thematic or strategy games?',['h: Select a game from the list below to view the description and cover image: ',[short_solo_theme],[]],['i:Select a game from the list below to view the description and cover image: ',[short_solo_strat],[]]],
+    ['e: Enter the Game ID to view the description and cover image: ',[long_solo],[]]],
     ['c: Are you with Friends or Family? ',
-    ['f: Do you prefer Strategic or Customizable Games? ',['k: Do you want a challenge? ',['Enter the Game ID to view the descrition and cover image: ',['STRATEGIC DIFFICULT LIST'],[]],['Enter the Game ID to view the descrition and cover image: ',["STRATEGIC EASY LIST"],[]]],
-    ['l: Do you want a challenge? ',['q: Enter the Game ID to view the descrition and cover image: ',['CUSTOM DIFFICULT LIST'],[]],['r: Enter the Game ID to view the descrition and cover image: ',['CUSTOM EASY LIST'],[]]]],
+    ['f: Do you prefer Strategic or Customizable Games? ',['k: Do you want a challenge? ',['Enter the Game ID to view the descrition and cover image: ',[strat_diff_multi],[]],['Enter the Game ID to view the descrition and cover image: ',[strat_easy_multi],[]]],
+    ['l: Do you want a challenge? ',['q: Enter the Game ID to view the descrition and cover image: ',[custom_diff_multi],[]],['r: Enter the Game ID to view the descrition and cover image: ',[custom_easy_multi],[]]]],
     ['g: Are there children in your group? ',['m: Do you want a challenge? ',['s: Enter the Game ID to view the descrition and cover image: ',['FAMILY DIFFICULT LIST'],[]],['t: Enter the Game ID to view the descrition and cover image: ',['FAMILY EASY LIST'],[]]],
-    ['n: Do you want a challenge? ',['u: Enter the Game ID to view the descrition and cover image: ',['FAMILY GAMES DIFFICULT LIST'],[]],['v: Enter the Game ID to view the descrition and cover image: ',['FAMILY GAMES EASY LIST'],[]]]]]
+    ['n: Do you want a challenge? ',['u: Enter the Game ID to view the descrition and cover image: ',['CHILDREN\'S GAMES DIFFICULT LIST'],[]],['v: Enter the Game ID to view the descrition and cover image: ',['CHILDREN\'S GAMES EASY LIST'],[]]]]]
     ]
 
 
