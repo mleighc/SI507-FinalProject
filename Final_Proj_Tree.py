@@ -51,11 +51,14 @@ def main():
     ###############################################
     ##Analyzing the Data and Prepping it for Tree##
     ###############################################
+
+    #####READ IN THE DATA
     #read in the bgg_list json file prepped in Final_Proj_API.py
     filepath = 'bgg_list.json'
     bgg_list = read_json(filepath)
-    print(bgg_list[0])
+    # print(bgg_list[0])
 
+    #####MAX PLAYER COUNTS
     #what's the range of Max/Min Player counts?
     max_of_max_players = 0
     min_of_min_players = float(inf)
@@ -64,32 +67,55 @@ def main():
             max_of_max_players = item['Max Players']
         if item['Min Players'] <= min_of_min_players:
             min_of_min_players = item['Min Players']
-    print(f'Highest Max Players Count: {max_of_max_players}')
-    print(f'Lowest Min Players Count: {min_of_min_players}')
+    # print(f'Highest Max Players Count: {max_of_max_players}')
+    # print(f'Lowest Min Players Count: {min_of_min_players}')
 
+    #####UNDERSTANDING DOMAINS
     #what are the different domains i.e. types of games? 
     domain_list = []
     for i in bgg_list:
         for t in i['Domains']:
             if t not in domain_list:
                 domain_list.append(t)
-    print(f'List of all represented Domains: {domain_list}')
+    # print(f'List of all represented Domains: {domain_list}')
 
+    #####FAMILY GAMES
+    family_list = []
+    family_list_names =[]
+    for i in bgg_list:
+        for t in i['Domains']:
+            if t == 'Family Games':
+                family_list.append(i)
+                family_list_names.append(i['Name'])
+    # print(f'List of Family Games: {family_list_names}')
+    # print(f'Count of dictionaries with Family Game Domain:{len(family_list)}')
+
+    ######################
+    ##Parsing SOLO GAMES##
+    ######################
+
+    #####ALL SOLO GAMES
     #how many games are solitary games and what are their types i.e. have max player count of 1?
     solitary_games = []
     solitary_games_names = []
     for item in bgg_list:
         if item['Max Players'] == 1:
-            solitary_games_names.append(item['Name'])
+            solitary_games_names.append((item['Name'], item['Play Time'], item['Domains']))
             solitary_games.append(item)
     print(f'List of Solitary Games for 1 Player Names: {solitary_games_names}')
     print(f'Count of dictionaries with Solitary Games Attributes:{len(solitary_games)}')
+
     solitary_types = set()
     for item in solitary_games:
         for t in item['Domains']:
             solitary_types.add(t)
     print(f'Types of Solitary Games: {solitary_types}')
 
+    ######################
+    ##Parsing MULTI GAMES##
+    ######################
+
+    ###### MULTIPLAYER GAMES
     #grabbing all multiplayer games and checking their unique types
     multiplayer = []
     multiplayer_names = []
@@ -104,7 +130,7 @@ def main():
     for item in multiplayer:
         for t in item['Domains']:
             multiplayer_types.add(t)
-    print(f'Types of Multiplayer Games: {multiplayer_types}')
+    # print(f'Types of Multiplayer Games: {multiplayer_types}')
 
     ####################
     ##Loading the Tree##
@@ -132,7 +158,7 @@ def main():
             ['Placeholder:Friends',[],[]], #F
             ['Placeholder:Family',[],[]] #G
         ]
-        ]]]
+        ]]]]
 
     '''Notes for me:
     I want to set up the tree by nesting each of the subtrees with a question and then the resulting question or game suggestion,
@@ -140,9 +166,26 @@ def main():
     Finally, I will write some functions/code to traverse the tree, ask the user questions and then pop out more questions or
     suggested games based on their responses'''
 
-    print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
+    # print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
 
 
+    tree = [
+        'a: Are you looking for a game to play solo or with others?',
+        [
+            'b: Are you with friends or family members?',
+            ['d: Are you looking for a Party Game or ']
+        ]
+
+
+
+
+
+
+
+
+
+
+    ]
 
 
 
