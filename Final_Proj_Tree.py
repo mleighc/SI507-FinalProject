@@ -100,7 +100,7 @@ def main():
     solitary_games_names = []
     for item in bgg_list:
         if item['Max Players'] == 1:
-            solitary_games_names.append((item['Name'], item['Play Time'], item['Domains']))
+            solitary_games_names.append((item['Name'], item['Play Time'], item['Domains'], item['Complexity Average']))
             solitary_games.append(item)
     print(f'List of Solitary Games for 1 Player Names: {solitary_games_names}')
     print(f'Count of dictionaries with Solitary Games Attributes:{len(solitary_games)}')
@@ -179,10 +179,10 @@ def main():
 
     ['',[],[]] #1 tree
 
-    tree = ['a',
-    ['b',
-    ['d',['h',[],[]],['i',[],[]]],
-    ['e',['j',[],[]],[]]],
+    tree = ['a: Are you looking for a game to play solo or with others?',
+    ['b: Do you have time for a short or a long game?',
+    ['d: Do you prefer thematic or strategy games?',['h: Select a game from the list below to view the description and cover image: ',['THEMATIC GAME VARIABLE'],[]],['i:Select a game from the list below to view the description and cover image: ',['STRATEGIC GAME VARIABLE'],[]]],
+    ['e',[],[]]],
     
     ['c',
     ['f',
@@ -190,17 +190,6 @@ def main():
     ['l',['q',[],[]],['r',[],[]]]],
     ['g',['m',['s',[],[]],['t',[],[]]],
     ['n',['u',[],[]],['v',[],[]]]]]]
-
-
-
-
-
-
-
-
-
-
-    ]
 
 
 
