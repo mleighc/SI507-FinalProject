@@ -44,6 +44,87 @@ def read_json(filepath, encoding='utf-8'):
     with open(filepath, 'r', encoding=encoding) as file_obj:
         return json.load(file_obj)
 
+
+##################################
+###Function for Games Questions###
+##################################
+def play(tree):
+    """
+    if the tree is a leaf, ask whether the object is the object named in the leaf
+    if not - ask the question in the tree. If user says 'yes', call the function recursively on the subtree that is the second element in the triple
+        or else if the user answers 'no', recur on the subtree that is the third element in the triple
+
+    parameters:
+        tree: 3-tuple or triple
+
+    returns:
+        tree: returns a new subTree whether or not the computer guesses the correct answer
+        """
+    if p2t.isLeaf(tree):
+        new_tree = p2t.playLeaf(tree)
+        return new_tree
+    else:
+        prompt = input(f'{tree[0]} ')
+        if p2t.yes(prompt):
+            n = play(tree[1])
+            return tuple([tree[0], n, tree[2]])
+        else:
+            n = play(tree[2])
+            return tuple([tree[0], tree[1], n])
+
+def isLeaf(tree):
+    '''
+    match the pattern for a leaf node vs. a question/internal node based on the tuple pattern
+    parameters:
+        tree: node, triple, or tuple of tuples
+    returns:
+        boolean: true if the item is a leaf node and false if the item is an internal node
+    '''
+    # match tree:
+    #     case (_, None, None):
+    #         return True
+    #     case _:
+    #         return False
+    text,left,right=tree
+    if left is None and right is None:
+        return True
+    return False
+
+def yes(prompt):
+    '''
+    checks if the user's input is yes or no
+    paramters:
+        a string received from a user input request
+    returns:
+        True if the user enters yes from a list of options or False if the user inputs anything else
+        '''
+    if prompt.lower().strip() in ('yes', 'y', "yup", "sure", 'yeah', 'yea'):
+        return True
+    return False
+
+def playLeaf(tree):
+    '''
+    prompts the user with a question and prints a response based on their input
+    parameters:
+        tree: a triple or Leaf with a guess and 2 None values
+    returns:
+        printed response based on user input
+    '''
+    text,left,right = tree
+    prompt = input(f'Is it {text}? ')
+    if yes(prompt):
+        print('I got it!')
+        return tree
+        # return True
+    else:
+        thing = input('Drats! What was it? ')
+        new_q = input(f'What\'s a question that distinguishes between {thing} and {text}? ')
+        # answer = input('And what\'s the answer for a car? ')
+        newTree = (new_q.strip(), (thing.strip(), None, None), tree)
+        return newTree
+        # return False
+
+
 def main():
     '''
     DOCSTRING!
@@ -218,6 +299,14 @@ def main():
     ['g: Are there children in your group? ',['m: Do you want a challenge? ',['s: Enter the Game ID to view the descrition and cover image: ',['FAMILY DIFFICULT LIST'],[]],['t: Enter the Game ID to view the descrition and cover image: ',['FAMILY EASY LIST'],[]]],
     ['n: Do you want a challenge? ',['u: Enter the Game ID to view the descrition and cover image: ',['CHILDREN\'S GAMES DIFFICULT LIST'],[]],['v: Enter the Game ID to view the descrition and cover image: ',['CHILDREN\'S GAMES EASY LIST'],[]]]]]
     ]
+
+
+    
+
+
+
+
+
 
 
 
