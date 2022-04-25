@@ -48,7 +48,7 @@ def read_json(filepath, encoding='utf-8'):
 ##################################
 ###Function for Games Questions###
 ##################################
-def play(tree):
+def ask(tree):
     """
     if the tree is a leaf, ask whether the object is the object named in the leaf
     if not - ask the question in the tree. If user says 'yes', call the function recursively on the subtree that is the second element in the triple
@@ -60,16 +60,16 @@ def play(tree):
     returns:
         tree: returns a new subTree whether or not the computer guesses the correct answer
         """
-    if p2t.isLeaf(tree):
-        new_tree = p2t.playLeaf(tree)
+    if isLeaf(tree):
+        new_tree = playLeaf(tree)
         return new_tree
     else:
         prompt = input(f'{tree[0]} ')
-        if p2t.yes(prompt):
-            n = play(tree[1])
+        if yes(prompt):
+            n = ask(tree[1])
             return tuple([tree[0], n, tree[2]])
         else:
-            n = play(tree[2])
+            n = ask(tree[2])
             return tuple([tree[0], tree[1], n])
 
 def isLeaf(tree):
@@ -244,8 +244,8 @@ def main():
                 strat_multi.append(item)
             elif t == 'Customizable Games':
                 custom_multi.append(item)
-    print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
-    print(f'Count of dictionaries with Multiplayer Customizable Games:{len(custom_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Customizable Games:{len(custom_multi)}')
 
     ######Parsing Diff/Easy Multiplayer Strategy Games
     strat_diff_multi = []
@@ -255,8 +255,8 @@ def main():
             strat_diff_multi.append(item)
         if item['Complexity Average'] < 2.5:
             strat_easy_multi.append(item)
-    print(f'Count of dictionaries with Multiplayer Difficult Strategy Games:{len(strat_diff_multi)}')
-    print(f'Count of dictionaries with Multiplayer Easy Strategy Games:{len(strat_easy_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Difficult Strategy Games:{len(strat_diff_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Easy Strategy Games:{len(strat_easy_multi)}')
 
     ######Parsing Diff/Easy Multiplayer Customizable Games
     custom_diff_multi = []
@@ -266,14 +266,48 @@ def main():
             custom_diff_multi.append(item)
         if item['Complexity Average'] < 2.5:
             custom_easy_multi.append(item)
-    print(f'Count of dictionaries with Multiplayer Difficult Customizable Games:{len(custom_diff_multi)}')
-    print(f'Count of dictionaries with Multiplayer Easy Customizable Games:{len(custom_easy_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Difficult Customizable Games:{len(custom_diff_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Easy Customizable Games:{len(custom_easy_multi)}')
 
     # multiplayer_types = set()
     # for item in multiplayer:
     #     for t in item['Domains']:
     #         multiplayer_types.add(t)
     # print(f'Types of Multiplayer Games: {multiplayer_types}')
+
+    #####Parsing Family and Children Multiplayer Games
+    fam_multi = []
+    child_multi = []
+    for item in multiplayer:
+        for t in item['Domains']:
+            if t == "Children's Games":
+                child_multi.append(item)
+            elif t == 'Family Games':
+                fam_multi.append(item)
+    # print(f'Count of dictionaries with Multiplayer Family Games:{len(fam_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Children\'s Games:{len(child_multi)}')
+
+    ######Parsing Diff/Easy Multiplayer Family Games
+    fam_diff_multi = []
+    fam_easy_multi = []
+    for item in fam_multi:
+        if item['Complexity Average'] > 2.5:
+            fam_diff_multi.append(item)
+        if item['Complexity Average'] < 2.5:
+            fam_easy_multi.append(item)
+    # print(f'Count of dictionaries with Multiplayer Difficult Family Games:{len(fam_diff_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Easy Family Games:{len(fam_easy_multi)}')
+
+    ######Parsing Diff/Easy Multiplayer Customizable Games
+    child_diff_multi = []
+    child_easy_multi = []
+    for item in child_multi:
+        if item['Complexity Average'] > 2.5:
+            child_diff_multi.append(item)
+        if item['Complexity Average'] < 2.5:
+            child_easy_multi.append(item)
+    # print(f'Count of dictionaries with Multiplayer Difficult Children\'s Games:{len(child_diff_multi)}')
+    # print(f'Count of dictionaries with Multiplayer Easy Children\'s Games:{len(child_easy_multi)}')
 
     ####################
     ##Loading the Tree##
@@ -284,9 +318,55 @@ def main():
     Finally, I will write some functions/code to traverse the tree, ask the user questions and then pop out more questions or
     suggested games based on their responses'''
 
-    # print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
+    print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
 
-    ['',[],[]] #1 tree
+    # '',[],[]
+
+    ['Are you looking for a game to play solo or with others?',
+        ['Solo',
+            ['Do you have time for a short or a long game?',
+                ['Short',
+                    ['Do you prefer thematic or strategy games?',
+                        ['Thematic',
+                            ["SOLO SHORT THEMATIC GAMES LIST"],
+                            []
+                        ],
+                        ['Strategy',
+                            ["SOLO SHORT STRATEGY GAMES LIST"],
+                            []
+                        ]
+                    ],
+                    []
+                ],
+                ['Long',
+                    ['Do you prefer thematic or strategy games?',
+                        ['Thematic',["SOLO LONG THEMATIC GAMES LIST"],[]],
+                        ['Strategy',["SOLO LONG STRATEGY GAMES LIST"],[]]
+                    ],
+                    []
+                ]
+            ],
+            []
+        ],
+        ['With Others',
+            ['Are you with Friends or Family?',
+                ['Friends',
+                    ['Do you prefer Strategy or Party Games?',
+                        ['Strategy',[],[]],
+                        ['Party',[],[]]],
+                    []],
+                ['Family',
+                    ['Are there children in your group?',
+                        [],
+                        []],
+                    ['',
+                        [],
+                        []]
+                ]
+            ],
+            []
+        ]
+    ] #1 tree example
 
     tree = [
         'a: Are you looking for a game to play solo or with others?',
@@ -296,15 +376,13 @@ def main():
     ['c: Are you with Friends or Family? ',
     ['f: Do you prefer Strategic or Customizable Games? ',['k: Do you want a challenge? ',['Enter the Game ID to view the descrition and cover image: ',[strat_diff_multi],[]],['Enter the Game ID to view the descrition and cover image: ',[strat_easy_multi],[]]],
     ['l: Do you want a challenge? ',['q: Enter the Game ID to view the descrition and cover image: ',[custom_diff_multi],[]],['r: Enter the Game ID to view the descrition and cover image: ',[custom_easy_multi],[]]]],
-    ['g: Are there children in your group? ',['m: Do you want a challenge? ',['s: Enter the Game ID to view the descrition and cover image: ',['FAMILY DIFFICULT LIST'],[]],['t: Enter the Game ID to view the descrition and cover image: ',['FAMILY EASY LIST'],[]]],
-    ['n: Do you want a challenge? ',['u: Enter the Game ID to view the descrition and cover image: ',['CHILDREN\'S GAMES DIFFICULT LIST'],[]],['v: Enter the Game ID to view the descrition and cover image: ',['CHILDREN\'S GAMES EASY LIST'],[]]]]]
+    ['g: Are there children in your group? ',['m: Do you want a challenge? ',['s: Enter the Game ID to view the descrition and cover image: ',[fam_diff_multi],[]],['t: Enter the Game ID to view the descrition and cover image: ',[fam_easy_multi],[]]],
+    ['n: Enter the Game ID to view the descrition and cover image: ',[child_easy_multi],[]]]]
     ]
 
 
-    
-
-
-
+    test = ask(tree)
+    print(test)
 
 
 
