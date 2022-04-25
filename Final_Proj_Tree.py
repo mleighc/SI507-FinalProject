@@ -48,81 +48,7 @@ def read_json(filepath, encoding='utf-8'):
 ##################################
 ###Function for Games Questions###
 ##################################
-def ask(tree):
-    """
-    if the tree is a leaf, ask whether the object is the object named in the leaf
-    if not - ask the question in the tree. If user says 'yes', call the function recursively on the subtree that is the second element in the triple
-        or else if the user answers 'no', recur on the subtree that is the third element in the triple
 
-    parameters:
-        tree: 3-tuple or triple
-
-    returns:
-        tree: returns a new subTree whether or not the computer guesses the correct answer
-        """
-    if isLeaf(tree):
-        new_tree = playLeaf(tree)
-        return new_tree
-    else:
-        prompt = input(f'{tree[0]} ')
-        if yes(prompt):
-            n = ask(tree[1])
-            return tuple([tree[0], n, tree[2]])
-        else:
-            n = ask(tree[2])
-            return tuple([tree[0], tree[1], n])
-
-def isLeaf(tree):
-    '''
-    match the pattern for a leaf node vs. a question/internal node based on the tuple pattern
-    parameters:
-        tree: node, triple, or tuple of tuples
-    returns:
-        boolean: true if the item is a leaf node and false if the item is an internal node
-    '''
-    # match tree:
-    #     case (_, None, None):
-    #         return True
-    #     case _:
-    #         return False
-    text,left,right=tree
-    if left is None and right is None:
-        return True
-    return False
-
-def yes(prompt):
-    '''
-    checks if the user's input is yes or no
-    paramters:
-        a string received from a user input request
-    returns:
-        True if the user enters yes from a list of options or False if the user inputs anything else
-        '''
-    if prompt.lower().strip() in ('yes', 'y', "yup", "sure", 'yeah', 'yea'):
-        return True
-    return False
-
-def playLeaf(tree):
-    '''
-    prompts the user with a question and prints a response based on their input
-    parameters:
-        tree: a triple or Leaf with a guess and 2 None values
-    returns:
-        printed response based on user input
-    '''
-    text,left,right = tree
-    prompt = input(f'Is it {text}? ')
-    if yes(prompt):
-        print('I got it!')
-        return tree
-        # return True
-    else:
-        thing = input('Drats! What was it? ')
-        new_q = input(f'What\'s a question that distinguishes between {thing} and {text}? ')
-        # answer = input('And what\'s the answer for a car? ')
-        newTree = (new_q.strip(), (thing.strip(), None, None), tree)
-        return newTree
-        # return False
 
 
 def main():
@@ -237,15 +163,15 @@ def main():
 
     #####Parsing Strategic and Customizable Multiplayer Games
     strat_multi = []
-    custom_multi = []
+    party_multi = []
     for item in multiplayer:
         for t in item['Domains']:
             if t == 'Strategy Games':
                 strat_multi.append(item)
-            elif t == 'Customizable Games':
-                custom_multi.append(item)
+            elif t == 'Party Games':
+                party_multi.append(item)
     # print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
-    # print(f'Count of dictionaries with Multiplayer Customizable Games:{len(custom_multi)}')
+    print(f'Count of dictionaries with Multiplayer Customizable Games:{len(party_multi)}')
 
     ######Parsing Diff/Easy Multiplayer Strategy Games
     strat_diff_multi = []
@@ -257,17 +183,6 @@ def main():
             strat_easy_multi.append(item)
     # print(f'Count of dictionaries with Multiplayer Difficult Strategy Games:{len(strat_diff_multi)}')
     # print(f'Count of dictionaries with Multiplayer Easy Strategy Games:{len(strat_easy_multi)}')
-
-    ######Parsing Diff/Easy Multiplayer Customizable Games
-    custom_diff_multi = []
-    custom_easy_multi = []
-    for item in custom_multi:
-        if item['Complexity Average'] > 2.5:
-            custom_diff_multi.append(item)
-        if item['Complexity Average'] < 2.5:
-            custom_easy_multi.append(item)
-    # print(f'Count of dictionaries with Multiplayer Difficult Customizable Games:{len(custom_diff_multi)}')
-    # print(f'Count of dictionaries with Multiplayer Easy Customizable Games:{len(custom_easy_multi)}')
 
     # multiplayer_types = set()
     # for item in multiplayer:
@@ -322,77 +237,74 @@ def main():
 
     # '',[],[]
 
-    ['Are you looking for a game to play solo or with others?',
+    tree = ['Are you looking for a game to play solo or with others?',
         ['Solo',
             ['Do you have time for a short or a long game?',
                 ['Short',
                     ['Do you prefer thematic or strategy games?',
-                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',["SOLO SHORT THEMATIC GAMES LIST"],None],None],
-                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',["SOLO SHORT STRATEGY GAMES LIST"],None],None]],None],
+                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_theme],None],None],
+                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None],
                 ['Long',
                     ['Do you prefer thematic or strategy games? ',
-                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',['SOLO LONG THEMATIC GAMES LIST'],None],None],
-                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',['SOLO LONG STRATEGY GAMES LIST'],None],None]],None]],None],
-        ['With Others',
-            ['Are you with Friends or Family?',
-                ['Friends',['Do you prefer Strategy or Party Games?',['Strategy',['Do you want a challenge?',['Yes',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI DIFF STRATEGY GAMES LIST'],[]],[]],['No',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI EASY STRATEGY GAMES LIST'],[]],[]]],[]],['Party',['Do you want a challenge?',['Yes',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI DIFF PARTY GAMES LIST'],[]],[]],['No',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI EASY PARTY GAMES LIST'],[]],[]]],[]]],[]],
-                ['Family',['Are there children in your group?',['Yes',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI CHILDREN\'S GAMES LIST'],[]],[]],['No',['Do you want a challenge?',['Yes',["MULTI DIFF FAMILY GAMES LIST"],[]],['No',["MULTI EASY FAMILY GAMES LIST"],[]]],[]]],[]]],[]]]
-
-    tree = ['Are you looking for a game to play solo or with others?',
-                ['Solo', 
-                    ['Do you have time for a short or a long game?', 
-                        ['Short', 
-                            ['Do you prefer thematic or strategy games?', 
-                                ['Thematic', ['Enter the Game ID to view the game\'s description and cover image: ', ["SOLO SHORT THEMATIC GAMES LIST"], None], None],
-                                ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',["SOLO SHORT STRATEGY GAMES LIST"], None], None],
-                        ['Long',
-                            ['Do you prefer thematic or strategy games?',
-                                ['Thematic', ['Enter the Game ID to view the game\'s description and cover image: ', ["SOLO LONG STRATEGY GAMES LIST"], None], None],
-                                ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ', ['SOLO LONG STRATEGY GAMES LIST'], None], None],
-                            ],[]
-                        ],
-                        []
-    ],
-
+                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_theme],None],None],
+                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None]],None],
         ['With Others',
             ['Are you with Friends or Family?',
                 ['Friends',
                     ['Do you prefer Strategy or Party Games?',
-                        ['Strategy',
-                            ['Do you want a challenge?', 
-                                ['Yes', ["MULTI DIFF STRATEGY GAMES LIST"], []],
-                                ['No', ["MULTI EASY STRATEGY GAMES LIST"], []]
-                            ],
-                            []
-                        ],
-                        ['Party',
-                            ['Do you want a challenge?',
-                                ['Yes',["MULTI DIFF PARTY GAMES LIST"],[]],
-                                ['No',["MULTI EASY PARTY GAMES LIST"],[]]
-                            ],
-                            []
-                        ]
-                    ],
-                    []
-                ],
+                        ['Strategy',['Do you want a challenge?',
+                            ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[strat_diff_multi],None],None],
+                            ['No',['Enter the Game ID to view the game\'s description and cover image: ',[strat_easy_multi],None],None]],None],
+                        ['Party',['Enter the Game ID to view the game\'s description and cover image: ',[party_multi],None],None]],None],
                 ['Family',
                     ['Are there children in your group?',
-                        ['Yes',['MULTI CHILDREN\'S GAMES LIST'],[]],
-                        ['No',['Do you want a challenge?', ['Yes',["MULTI DIFF FAMILY GAMES LIST"],[]], ['No',["MULTI EASY FAMILY GAMES LIST"],[]]
-                            ],
-                            []
-                        ]
-                    ],
-                    []
-                ]
-            ],
-            []
-        ]
-    ] #1 tree example
+                        ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
+                        ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
 
+    # def ask(tree):
+    #     """
+    #     if the tree is a leaf, ask whether the object is the object named in the leaf
+    #     if not - ask the question in the tree. If user says 'yes', call the function recursively on the subtree that is the second element in the triple
+    #         or else if the user answers 'no', recur on the subtree that is the third element in the triple
 
-    test = ask(tree)
-    print(test)
+    #     parameters:
+    #         tree: 3-tuple or triple
+
+    #     returns:
+    #         tree: returns a new subTree whether or not the computer guesses the correct answer
+    #         """
+    #     if isLeaf(tree):
+    #         new_tree = playLeaf(tree)
+    #         return new_tree
+    #     else:
+    #         prompt = input(f'{tree[0]} ')
+    #         if yes(prompt):
+    #             n = ask(tree[1])
+    #             return tuple([tree[0], n, tree[2]])
+    #         else:
+    #             n = ask(tree[2])
+    #             return tuple([tree[0], tree[1], n])
+
+    # def isLeaf(tree):
+    #     '''
+    #     match the pattern for a leaf node vs. a question/internal node based on the tuple pattern
+    #     parameters:
+    #         tree: node, triple, or tuple of tuples
+    #     returns:
+    #         boolean: true if the item is a leaf node and false if the item is an internal node
+    #     '''
+    #     # match tree:
+    #     #     case (_, None, None):
+    #     #         return True
+    #     #     case _:
+    #     #         return False
+    #     text,left,right=tree
+    #     if isinstance(left, ) and right is None:
+    #         return True
+    #     return False
+
+        # test = ask(tree)
+        # print(test)
 
 
 if __name__ == "__main__":
