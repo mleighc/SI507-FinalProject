@@ -327,38 +327,62 @@ def main():
             ['Do you have time for a short or a long game?',
                 ['Short',
                     ['Do you prefer thematic or strategy games?',
-                        ['Thematic',
-                            ["SOLO SHORT THEMATIC GAMES LIST"],
+                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',["SOLO SHORT THEMATIC GAMES LIST"],None],None],
+                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',["SOLO SHORT STRATEGY GAMES LIST"],None],None]],None],
+                ['Long',
+                    ['Do you prefer thematic or strategy games? ',
+                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',['SOLO LONG THEMATIC GAMES LIST'],None],None],
+                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',['SOLO LONG STRATEGY GAMES LIST'],None],None]],None]],None],
+        ['With Others',
+            ['Are you with Friends or Family?',
+                ['Friends',['Do you prefer Strategy or Party Games?',['Strategy',['Do you want a challenge?',['Yes',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI DIFF STRATEGY GAMES LIST'],[]],[]],['No',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI EASY STRATEGY GAMES LIST'],[]],[]]],[]],['Party',['Do you want a challenge?',['Yes',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI DIFF PARTY GAMES LIST'],[]],[]],['No',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI EASY PARTY GAMES LIST'],[]],[]]],[]]],[]],
+                ['Family',['Are there children in your group?',['Yes',['Enter the Game ID to view the game\'s description and cover image: ',['MULTI CHILDREN\'S GAMES LIST'],[]],[]],['No',['Do you want a challenge?',['Yes',["MULTI DIFF FAMILY GAMES LIST"],[]],['No',["MULTI EASY FAMILY GAMES LIST"],[]]],[]]],[]]],[]]]
+
+    tree = ['Are you looking for a game to play solo or with others?',
+                ['Solo', 
+                    ['Do you have time for a short or a long game?', 
+                        ['Short', 
+                            ['Do you prefer thematic or strategy games?', 
+                                ['Thematic', ['Enter the Game ID to view the game\'s description and cover image: ', ["SOLO SHORT THEMATIC GAMES LIST"], None], None],
+                                ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',["SOLO SHORT STRATEGY GAMES LIST"], None], None],
+                        ['Long',
+                            ['Do you prefer thematic or strategy games?',
+                                ['Thematic', ['Enter the Game ID to view the game\'s description and cover image: ', ["SOLO LONG STRATEGY GAMES LIST"], None], None],
+                                ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ', ['SOLO LONG STRATEGY GAMES LIST'], None], None],
+                            ],[]
+                        ],
+                        []
+    ],
+
+        ['With Others',
+            ['Are you with Friends or Family?',
+                ['Friends',
+                    ['Do you prefer Strategy or Party Games?',
+                        ['Strategy',
+                            ['Do you want a challenge?', 
+                                ['Yes', ["MULTI DIFF STRATEGY GAMES LIST"], []],
+                                ['No', ["MULTI EASY STRATEGY GAMES LIST"], []]
+                            ],
                             []
                         ],
-                        ['Strategy',
-                            ["SOLO SHORT STRATEGY GAMES LIST"],
+                        ['Party',
+                            ['Do you want a challenge?',
+                                ['Yes',["MULTI DIFF PARTY GAMES LIST"],[]],
+                                ['No',["MULTI EASY PARTY GAMES LIST"],[]]
+                            ],
                             []
                         ]
                     ],
                     []
                 ],
-                ['Long',
-                    ['Do you prefer thematic or strategy games?',
-                        ['Thematic',["SOLO LONG THEMATIC GAMES LIST"],[]],
-                        ['Strategy',["SOLO LONG STRATEGY GAMES LIST"],[]]
-                    ],
-                    []
-                ]
-            ],
-            []
-        ],
-        ['With Others',
-            ['Are you with Friends or Family?',
-                ['Friends',
-                    ['Do you prefer Strategy or Party Games?',
-                        ['Strategy',[],[]],
-                        ['Party',[],[]]],
-                    []],
                 ['Family',
                     ['Are there children in your group?',
-                        ['Yes',[],[]],
-                        ['No',[],[]]],
+                        ['Yes',['MULTI CHILDREN\'S GAMES LIST'],[]],
+                        ['No',['Do you want a challenge?', ['Yes',["MULTI DIFF FAMILY GAMES LIST"],[]], ['No',["MULTI EASY FAMILY GAMES LIST"],[]]
+                            ],
+                            []
+                        ]
+                    ],
                     []
                 ]
             ],
@@ -366,25 +390,9 @@ def main():
         ]
     ] #1 tree example
 
-    tree = [
-        'a: Are you looking for a game to play solo or with others?',
-    ['b: Do you have time for a short or a long game?',
-    ['d: Do you prefer thematic or strategy games?',['h: Select a game from the list below to view the description and cover image: ',[short_solo_theme],[]],['i:Select a game from the list below to view the description and cover image: ',[short_solo_strat],[]]],
-    ['e: Enter the Game ID to view the description and cover image: ',[long_solo],[]]],
-    ['c: Are you with Friends or Family? ',
-    ['f: Do you prefer Strategic or Customizable Games? ',['k: Do you want a challenge? ',['Enter the Game ID to view the descrition and cover image: ',[strat_diff_multi],[]],['Enter the Game ID to view the descrition and cover image: ',[strat_easy_multi],[]]],
-    ['l: Do you want a challenge? ',['q: Enter the Game ID to view the descrition and cover image: ',[custom_diff_multi],[]],['r: Enter the Game ID to view the descrition and cover image: ',[custom_easy_multi],[]]]],
-    ['g: Are there children in your group? ',['m: Do you want a challenge? ',['s: Enter the Game ID to view the descrition and cover image: ',[fam_diff_multi],[]],['t: Enter the Game ID to view the descrition and cover image: ',[fam_easy_multi],[]]],
-    ['n: Enter the Game ID to view the descrition and cover image: ',[child_easy_multi],[]]]]
-    ]
-
 
     test = ask(tree)
     print(test)
-
-
-
-
 
 
 if __name__ == "__main__":
