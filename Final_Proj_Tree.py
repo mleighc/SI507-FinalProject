@@ -357,11 +357,9 @@ def main():
                     []],
                 ['Family',
                     ['Are there children in your group?',
-                        [],
-                        []],
-                    ['',
-                        [],
-                        []]
+                        ['Yes',[],[]],
+                        ['No',[],[]]],
+                    []
                 ]
             ],
             []
