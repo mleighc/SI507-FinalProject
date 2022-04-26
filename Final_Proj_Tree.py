@@ -1,32 +1,6 @@
 from cmath import inf
 import json
-
-# class TreeNode:
-#     def __init__(self, val=None):
-#         if val != None:
-#             self.val = val
-#         else:
-#             self.val = None
-#         self.left = None
-#         self.right = None
-
-#     def printTree(self):
-#         print(self.val)
-
-#     def insert(self, val):
-#         if self.val:
-#             if val < self.val:
-#                     if self.left is None:
-#                         self.left = TreeNode(val)
-#                     else:
-#                         self.left.insert(val)
-#             elif val > self.val:
-#                     if self.right is None:
-#                         self.right = TreeNode(val)
-#                     else:
-#                         self.right.insert(val)
-#         else:
-#             self.val = val
+import webbrowser
 
 #helper function referenced from SI506 lectures
 def read_json(filepath, encoding='utf-8'):
@@ -46,10 +20,61 @@ def read_json(filepath, encoding='utf-8'):
 
 
 ##################################
-###Function for Games Questions###
+###Functions for Games Questions###
 ##################################
 
+def display_list(games):
+        '''DOCSTRING!'''
+        # count = 0
+        for item in games[1]:
+            print(f'\n{item["ID"]}: {item["Name"]}')
 
+def viewDesc(item):
+    '''DOCSTRING'''
+    desc = item['Description']
+    print(f'\n{desc}')
+
+def viewImage(item):
+    '''DOCSTRING'''
+    url = item['Image']
+    webbrowser.open(url,new=0)
+
+def pickGame(tree):
+    '''DOCSTRING!'''
+    prompt = input(f'\nWould you like to view more information? Enter the Game ID to view the description and cover image or "Exit" to exit the program. ')
+    if prompt in ('exit','EXIT','Exit'):
+        quit()
+    else:
+        while True:
+            if 
+            for item in tree[1]:
+                if item['ID'] == int(prompt):
+                    viewDesc(item)
+                    viewImage(item)
+
+def isListResult(tree):
+    '''DOCSTRING!'''
+    text,left,right = tree
+    if isinstance(text[1], list) and left is None and right is None:
+        return True
+    return False
+
+def ask(tree):
+    '''DOCSTRING!'''
+    if isListResult(tree):
+        display_list(tree[0])
+        pickGame(tree[0])
+    else:
+        text,left,right = tree
+        prompt = input(f'{text[1]} ')
+        if prompt.lower().strip() == left[0][0].lower():
+            ask(left)
+        elif prompt.lower().strip() == right[0][0].lower():
+            ask(right)
+
+###################
+###MAIN FUNCTION###
+###################
 
 def main():
     '''
@@ -275,36 +300,6 @@ def main():
     #                     ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
     #                     ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
 
-    def display_list(games):
-        '''DOCSTRING!'''
-        # count = 0
-        for item in games[1]:
-            print(f'{item["ID"]}: {item["Name"]}')
-
-    def pickGame(prompt):
-        '''DOCSTRING!'''
-        pass
-            
-
-    def isListResult(tree):
-        '''DOCSTRING!'''
-        text,left,right = tree
-        if isinstance(text[1], list) and left is None and right is None:
-            return True
-        return False
-
-    def ask(tree):
-        '''DOCSTRING!'''
-        if isListResult(tree):
-            display_list(tree[0])
-            prompt = input('Enter the Game ID to view the game\'s description and cover image: ')
-        else:
-            text,left,right = tree
-            prompt = input(f'{text[1]} ')
-            if prompt.lower().strip() == left[0][0].lower():
-                ask(left)
-            elif prompt.lower().strip() == right[0][0].lower():
-                ask(right)
 
     test = ask(tree)
     print(test)
