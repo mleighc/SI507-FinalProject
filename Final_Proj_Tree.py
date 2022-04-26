@@ -1,8 +1,6 @@
 from cmath import inf
 import json
 
-from bitarray import test
-
 # class TreeNode:
 #     def __init__(self, val=None):
 #         if val != None:
@@ -173,8 +171,8 @@ def main():
             elif t == 'Party Games':
                 party_multi.append(item)
     # print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
-    print(f'Count of dictionaries with Multiplayer Customizable Games:{len(party_multi)}')
-    print(type(party_multi))
+    # print(f'Count of dictionaries with Multiplayer Customizable Games:{len(party_multi)}')
+    # print(type(party_multi))
 
     ######Parsing Diff/Easy Multiplayer Strategy Games
     strat_diff_multi = []
@@ -244,7 +242,7 @@ def main():
         [['Solo','Do you have time for a short or a long game?'],
             [['Short','Do you prefer thematic or strategy games?'],
                 [['Thematic','Enter the Game ID to view the game\'s description and cover image: '], [['',short_solo_theme],[],[]],[]],
-                [['Strategy','Enter the Game ID to view the game\'s description and cover image: '], [['',short_solo_strat],[],[]],[]]],
+                [['Strategy',short_solo_strat], None,None]],
             [['Long','Do you prefer thematic or strategy games? '],
                 [['Thematic','Enter the Game ID to view the game\'s description and cover image: '],[[],[],[]],[]],
                 [['Strategy','Enter the Game ID to view the game\'s description and cover image: '],[],[]]]],
@@ -277,24 +275,39 @@ def main():
     #                     ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
     #                     ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
 
+    def display_list(games):
+        '''DOCSTRING!'''
+        # count = 0
+        for item in games[1]:
+            print(f'{item["ID"]}: {item["Name"]}')
 
-    # text,left,right=tree
-    # if isinstance(left, list) and right is None:
-    #     return True
-    # return False
-    def test_function(tree):
+    def pickGame(prompt):
+        '''DOCSTRING!'''
+        pass
+            
+
+    def isListResult(tree):
         '''DOCSTRING!'''
         text,left,right = tree
-        prompt = input(f'{text[1]} ')
-        if prompt.lower().strip() == left[0][0].lower():
-            test_function(left)
-        elif prompt.lower().strip() == right[0][0].lower():
-            test_function(right)
-        return tree
+        if isinstance(text[1], list) and left is None and right is None:
+            return True
+        return False
 
-    test = test_function(tree)
+    def ask(tree):
+        '''DOCSTRING!'''
+        if isListResult(tree):
+            display_list(tree[0])
+            prompt = input('Enter the Game ID to view the game\'s description and cover image: ')
+        else:
+            text,left,right = tree
+            prompt = input(f'{text[1]} ')
+            if prompt.lower().strip() == left[0][0].lower():
+                ask(left)
+            elif prompt.lower().strip() == right[0][0].lower():
+                ask(right)
+
+    test = ask(tree)
     print(test)
- 
 
 
 
