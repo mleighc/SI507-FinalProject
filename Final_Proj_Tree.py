@@ -1,6 +1,8 @@
 from cmath import inf
 import json
 
+from bitarray import test
+
 # class TreeNode:
 #     def __init__(self, val=None):
 #         if val != None:
@@ -172,6 +174,7 @@ def main():
                 party_multi.append(item)
     # print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
     print(f'Count of dictionaries with Multiplayer Customizable Games:{len(party_multi)}')
+    print(type(party_multi))
 
     ######Parsing Diff/Easy Multiplayer Strategy Games
     strat_diff_multi = []
@@ -233,78 +236,66 @@ def main():
     Finally, I will write some functions/code to traverse the tree, ask the user questions and then pop out more questions or
     suggested games based on their responses'''
 
-    print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
+    # print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
 
-    # '',[],[]
+    # [],[],[]
 
-    tree = ['Are you looking for a game to play solo or with others?',
-        ['Solo',
-            ['Do you have time for a short or a long game?',
-                ['Short',
-                    ['Do you prefer thematic or strategy games?',
-                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_theme],None],None],
-                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None],
-                ['Long',
-                    ['Do you prefer thematic or strategy games? ',
-                        ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_theme],None],None],
-                        ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None]],None],
-        ['With Others',
-            ['Are you with Friends or Family?',
-                ['Friends',
-                    ['Do you prefer Strategy or Party Games?',
-                        ['Strategy',['Do you want a challenge?',
-                            ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[strat_diff_multi],None],None],
-                            ['No',['Enter the Game ID to view the game\'s description and cover image: ',[strat_easy_multi],None],None]],None],
-                        ['Party',['Enter the Game ID to view the game\'s description and cover image: ',[party_multi],None],None]],None],
-                ['Family',
-                    ['Are there children in your group?',
-                        ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
-                        ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
+    tree = [['','Are you looking for a game to play solo or with others?'],
+        [['Solo','Do you have time for a short or a long game?'],
+            [['Short','Do you prefer thematic or strategy games?'],
+                [['Thematic','Enter the Game ID to view the game\'s description and cover image: '], [['',short_solo_theme],[],[]],[]],
+                [['Strategy','Enter the Game ID to view the game\'s description and cover image: '], [['',short_solo_strat],[],[]],[]]],
+            [['Long','Do you prefer thematic or strategy games? '],
+                [['Thematic','Enter the Game ID to view the game\'s description and cover image: '],[[],[],[]],[]],
+                [['Strategy','Enter the Game ID to view the game\'s description and cover image: '],[],[]]]],
+        [['With Others','Are you with Friends or Family?'],[],[]]]
 
-    # def ask(tree):
-    #     """
-    #     if the tree is a leaf, ask whether the object is the object named in the leaf
-    #     if not - ask the question in the tree. If user says 'yes', call the function recursively on the subtree that is the second element in the triple
-    #         or else if the user answers 'no', recur on the subtree that is the third element in the triple
+        #notes for me: need to finish the With Others section and display the lists of games before prompting user to pick a game id. Need to write a function 
+        #to print the id and set some control flow in the test function to display the right data
 
-    #     parameters:
-    #         tree: 3-tuple or triple
+    #tree = [['','Are you looking for a game to play solo or with others?'],
+     #   ['Solo',
+      #      ['Do you have time for a short or a long game?',
+                #['Short',
+                  #  ['Do you prefer thematic or strategy games?',
+                        #['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_theme],None],None],
+                        # ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None],
+                #['Long',
+                 #   ['Do you prefer thematic or strategy games? ',
+    #                     ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[long_solo_theme],None],None],
+    #                     ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None]],None],
+    #  #   ['With Others',
+    #   #      ['Are you with Friends or Family?',
+    #             ['Friends',
+    #                 ['Do you prefer Strategy or Party Games?',
+    #                     ['Strategy',['Do you want a challenge?',
+    #                         ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[strat_diff_multi],None],None],
+    #                         ['No',['Enter the Game ID to view the game\'s description and cover image: ',[strat_easy_multi],None],None]],None],
+    #                     ['Party',['Enter the Game ID to view the game\'s description and cover image: ',[party_multi],None],None]],None],
+    #             ['Family',
+    #                 ['Are there children in your group?',
+    #                     ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
+    #                     ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
 
-    #     returns:
-    #         tree: returns a new subTree whether or not the computer guesses the correct answer
-    #         """
-    #     if isLeaf(tree):
-    #         new_tree = playLeaf(tree)
-    #         return new_tree
-    #     else:
-    #         prompt = input(f'{tree[0]} ')
-    #         if yes(prompt):
-    #             n = ask(tree[1])
-    #             return tuple([tree[0], n, tree[2]])
-    #         else:
-    #             n = ask(tree[2])
-    #             return tuple([tree[0], tree[1], n])
 
-    # def isLeaf(tree):
-    #     '''
-    #     match the pattern for a leaf node vs. a question/internal node based on the tuple pattern
-    #     parameters:
-    #         tree: node, triple, or tuple of tuples
-    #     returns:
-    #         boolean: true if the item is a leaf node and false if the item is an internal node
-    #     '''
-    #     # match tree:
-    #     #     case (_, None, None):
-    #     #         return True
-    #     #     case _:
-    #     #         return False
-    #     text,left,right=tree
-    #     if isinstance(left, ) and right is None:
-    #         return True
-    #     return False
+    # text,left,right=tree
+    # if isinstance(left, list) and right is None:
+    #     return True
+    # return False
+    def test_function(tree):
+        '''DOCSTRING!'''
+        text,left,right = tree
+        prompt = input(f'{text[1]} ')
+        if prompt.lower().strip() == left[0][0].lower():
+            test_function(left)
+        elif prompt.lower().strip() == right[0][0].lower():
+            test_function(right)
+        return tree
 
-        # test = ask(tree)
-        # print(test)
+    test = test_function(tree)
+    print(test)
+ 
+
 
 
 if __name__ == "__main__":
