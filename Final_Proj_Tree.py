@@ -2,6 +2,10 @@ from cmath import inf
 import json
 import webbrowser
 
+#####################################################
+#################HELPER FUNCTIONS####################
+#####################################################
+
 #helper function referenced from SI506 lectures
 def read_json(filepath, encoding='utf-8'):
     """Reads a JSON document, decodes the file content, and returns a list or
@@ -19,7 +23,13 @@ def read_json(filepath, encoding='utf-8'):
         return json.load(file_obj)
 
 def clean_string(s):
-    '''DOCSTRING!'''
+    '''
+    iterate over a series of html entities to clean them from a string
+    parameters:
+        s: string
+    returns:
+        s: cleaned string
+    '''
     for r in (('&quot;','\"'),
     ('&ldquo;','\"',),
     ('&rdquo;','\"'),
@@ -33,29 +43,55 @@ def clean_string(s):
     return s
 
 
-##################################
-###Functions for Games Questions###
-##################################
+#################################################################
+#################GAME QUESTION FLOW FUNCTIONS####################
+#################################################################
 
 def display_list(games):
-        '''DOCSTRING!'''
+        '''
+        iterates over the 1st index element of a subTree (which is a list) and prints the formatted Game ID and Name of each item
+        parameters:
+            games: subTree or list of 3 lists
+        returns:
+            None
+        '''
         print(f'\n')
         for item in games[1]:
             print(f'{item["ID"]}: {item["Name"]}')
 
 def viewDesc(item):
-    '''DOCSTRING'''
+    '''
+        accesses the Description key of a passed in Game object (1 dictionary represents 1 game), calls the clean_string function to remove html entities, and prints the description to the command line
+        parameters:
+            item: a dictionary
+        returns:
+            None
+    '''
     desc = item['Description']
     d = clean_string(desc)
     print(f'\n{d}')
 
 def viewImage(item):
-    '''DOCSTRING'''
+    '''
+        accesses the url or "Image" key of a dictionary and opens the url in a webbrowser
+        parameters:
+            item: a dictionary
+        returns:
+            None
+    '''
     url = item['Image']
     webbrowser.open(url,new=1)
 
 def pickGame(tree):
-    '''DOCSTRING!'''
+    '''
+        prompts the user to select the Game ID for the game they'd like to view or exit the program if they have finished
+        will reprompt the user to pick a new ID after each selection
+        calls the viewDesc and viewImage functions to display key information to the user
+        parameters:
+            tree: a subTree or triple of lists
+        returns:
+            None
+    '''
     while True:
         prompt = input(f'\nWould you like to view more information? Enter the Game ID to view the game description and cover image or "Exit" to exit the program. ')
         if prompt in ('exit','EXIT','Exit'):
@@ -67,14 +103,30 @@ def pickGame(tree):
                     viewImage(item)
 
 def isListResult(tree):
-    '''DOCSTRING!'''
+    '''
+    unpacks the subtree to check if it is the final result leaf
+    parameters:
+        tree: a subTree or triple of lists
+    returns:
+        returns: boolean; True if it is a leaf or ListReult and False otherwise
+    '''
     text,left,right = tree
     if isinstance(text[1], list) and left is None and right is None:
         return True
     return False
 
 def ask(tree):
-    '''DOCSTRING!'''
+    '''
+    checks if the subtree is leaf or ListResult of the tree
+    if it is:
+        the final list of suggested games is displayed to the user (i.e. the display_list function called), then calls the pickGame to prompt the user to view more game information
+    if it is not:
+        unpacks the tree, prompts the user with the first question in the tree, then calls itself recursively based on the user's selection i.e. whether the user picked the respons in the left or right subTree
+    parameters:
+        tree: a subTree or triple of lists
+    returns:
+        None
+    '''
     if isListResult(tree):
         display_list(tree[0])
         pickGame(tree[0])
@@ -86,22 +138,24 @@ def ask(tree):
         elif prompt.lower().strip() == right[0][0].lower():
             ask(right)
 
-###################
-###MAIN FUNCTION###
-###################
+#################################################################
+#########################MAIN FUNCTION###########################
+#################################################################
 
 def main():
-    '''
-    DOCSTRING!
-    '''
-    ###############################################
-    ##Analyzing the Data and Prepping it for Tree##
-    ###############################################
-    ###############################################
+    """Entry point for program.
 
-    ##########################
-    #####READ IN THE DATA#####
-    ##########################
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
+
+    ############################################################
+    #################READ and PARSE THE DATA####################
+    ############################################################
+
     #read in the bgg_list json file prepped in Final_Proj_API.py
     filepath = 'bgg_list.json'
     bgg_list = read_json(filepath)
@@ -308,9 +362,9 @@ def main():
     # print(f'Count of dictionaries with Multiplayer Difficult Children\'s Games:{len(child_diff_multi)}')
     # print(f'Count of dictionaries with Multiplayer Easy Children\'s Games:{len(child_easy_multi)}')
 
-    ####################
-    ##Loading the Tree##
-    ####################
+    ####################################################################################
+    #################LOAD TREE STRUCTURE WITH PARSED BOARD GAME DATA####################
+    ####################################################################################
 
     tree = [['','Are you looking for a game to play solo or with others? '],
         [['Solo','Do you have time for a short or a long game? '],
@@ -338,9 +392,9 @@ def main():
                     [['Yes',fam_diff_multi],None,None],
                     [['No',fam_easy_multi],None,None]]]]]
 
-    #################
-    ###RUN PROGRAM###
-    #################
+    ##########################################################
+    #################QUESTION CONTROL FLOW####################
+    ##########################################################
     print(f'Answer my questions and I will help you decide on the next game to play!')
     while True:
         ask(tree)
