@@ -18,6 +18,20 @@ def read_json(filepath, encoding='utf-8'):
     with open(filepath, 'r', encoding=encoding) as file_obj:
         return json.load(file_obj)
 
+def clean_string(s):
+    '''DOCSTRING!'''
+    for r in (('&quot;','\"'),
+    ('&ldquo;','\"',),
+    ('&rdquo;','\"'),
+    ('&rsquo;','\"'), 
+    ('</a>',' '),
+    ('<br/>',' '), 
+    ('<br>',' '), 
+    ('P&amp;P', ' '),
+    ('&bull;', ' ')):
+        s = s.replace(*r)
+    return s
+
 
 ##################################
 ###Functions for Games Questions###
@@ -25,28 +39,28 @@ def read_json(filepath, encoding='utf-8'):
 
 def display_list(games):
         '''DOCSTRING!'''
-        # count = 0
+        print(f'\n')
         for item in games[1]:
-            print(f'\n{item["ID"]}: {item["Name"]}')
+            print(f'{item["ID"]}: {item["Name"]}')
 
 def viewDesc(item):
     '''DOCSTRING'''
     desc = item['Description']
-    print(f'\n{desc}')
+    d = clean_string(desc)
+    print(f'\n{d}')
 
 def viewImage(item):
     '''DOCSTRING'''
     url = item['Image']
-    webbrowser.open(url,new=0)
+    webbrowser.open(url,new=1)
 
 def pickGame(tree):
     '''DOCSTRING!'''
-    prompt = input(f'\nWould you like to view more information? Enter the Game ID to view the description and cover image or "Exit" to exit the program. ')
-    if prompt in ('exit','EXIT','Exit'):
-        quit()
-    else:
-        while True:
-            if 
+    while True:
+        prompt = input(f'\nWould you like to view more information? Enter the Game ID to view the game description and cover image or "Exit" to exit the program. ')
+        if prompt in ('exit','EXIT','Exit'):
+            quit()
+        else:
             for item in tree[1]:
                 if item['ID'] == int(prompt):
                     viewDesc(item)
@@ -82,6 +96,7 @@ def main():
     '''
     ###############################################
     ##Analyzing the Data and Prepping it for Tree##
+    ###############################################
     ###############################################
 
     ##########################
@@ -151,6 +166,7 @@ def main():
     # print(f'Long Solo Games: {long_solo}')
     # print(f'Long Solo Games Count: {len(long_solo)}')
 
+
     #####SHORT SOLO THEMATIC/STRATEGIC GAMES
     short_solo = []
     #long = over an hour?
@@ -186,7 +202,7 @@ def main():
     # print(f'List of Multiplayer Games for Friends Names: {multiplayer_names}')
     # print(f'Count of dictionaries with Multiplayer Games Attributes:{len(multiplayer)}')
 
-    #####Parsing Strategic and Customizable Multiplayer Games
+    #####Parsing Strategic and Party Multiplayer Games
     strat_multi = []
     party_multi = []
     for item in multiplayer:
@@ -198,6 +214,17 @@ def main():
     # print(f'Count of dictionaries with Multiplayer Strategy Games:{len(strat_multi)}')
     # print(f'Count of dictionaries with Multiplayer Customizable Games:{len(party_multi)}')
     # print(type(party_multi))
+
+    ######parse short/long party games
+    party_multi_short = []
+    party_multi_long = []
+    for item in party_multi:
+        if item['Play Time'] < 60:
+            party_multi_short.append(item)
+        if item['Play Time'] > 60:
+            party_multi_long.append(item)
+    # print(f'Count of Short Party Games: {len(party_multi_short)}')
+    # print(f'Count of Long Party Games: {len(party_multi_long)}')
 
     ######Parsing Diff/Easy Multiplayer Strategy Games
     strat_diff_multi = []
@@ -263,15 +290,25 @@ def main():
 
     # [],[],[]
 
-    tree = [['','Are you looking for a game to play solo or with others?'],
-        [['Solo','Do you have time for a short or a long game?'],
-            [['Short','Do you prefer thematic or strategy games?'],
-                [['Thematic','Enter the Game ID to view the game\'s description and cover image: '], [['',short_solo_theme],[],[]],[]],
+    tree = [['','Are you looking for a game to play solo or with others? '],
+        [['Solo','Do you have time for a short or a long game? '],
+            [['Short','Do you prefer thematic or strategy games? '],
+                [['Thematic',short_solo_theme], None,None],
                 [['Strategy',short_solo_strat], None,None]],
-            [['Long','Do you prefer thematic or strategy games? '],
-                [['Thematic','Enter the Game ID to view the game\'s description and cover image: '],[[],[],[]],[]],
-                [['Strategy','Enter the Game ID to view the game\'s description and cover image: '],[],[]]]],
-        [['With Others','Are you with Friends or Family?'],[],[]]]
+            [['Long',long_solo],None,None]],
+        [['With Others','Are you with Friends or Family? '],
+            [['Friends','Do you prefer Strategy or Party Games? '],
+                [['Strategy','Do you want a challenge? '],
+                    [['Yes',strat_diff_multi],None,None],
+                    [['No',strat_easy_multi],None,None]],
+                [['Party','Do you have time for a short or a long game? '],
+                    [['Short',party_multi_short],None,None],
+                    [['Long',party_multi_long],None,None]]],
+            [['Family','Are there children in your group? '],
+                [['Yes',child_multi],None,None],
+                [['No','Do you want a challenge? '],
+                    [['Yes',fam_diff_multi],None,None],
+                    [['No',fam_easy_multi],None,None]]]]]
 
         #notes for me: need to finish the With Others section and display the lists of games before prompting user to pick a game id. Need to write a function 
         #to print the id and set some control flow in the test function to display the right data
@@ -300,6 +337,9 @@ def main():
     #                     ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
     #                     ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
 
+    #################
+    ##START PROGRAM##
+    #################
 
     test = ask(tree)
     print(test)
