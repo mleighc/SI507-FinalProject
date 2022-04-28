@@ -34,3 +34,17 @@ question/answer flow, then loading that data into the tree structure. This
 file also include the control flow for interacting with the user and 
 displaying necessary game information based on their answers to the 
 computer's questions. 
+
+#### Overview of My Project
+First, I began by accessing ~20k board game records from a combination of 
+xml data access via Board Game Geek's (BGG) API, along with a Kaggle csv 
+of additional board game attribute data scraped from BGG by another user. 
+Using the xmltodict package, I was able to parse the xml data and save it 
+to a python dictionary. From there, I enhanced the dictionary objects with 
+additional board game attributes from the Kaggle csv. 
+
+After getting a better understanding of the data, I was able to think 
+through various methods of categorizing the data in order to create a tree 
+with a series of user questions. These user questions would allow the 
+computer to filter through a subset of the ~20k board game objects and 
+recommend the right one for the user. 
