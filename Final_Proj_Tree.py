@@ -339,9 +339,9 @@ def main():
                     [['No',fam_easy_multi],None,None]]]]]
 
     #################
-    ##START PROGRAM##
+    ###RUN PROGRAM###
     #################
-    prompt = input(f'Answer my questions and I will help you decide on the next game to play!')
+    print(f'Answer my questions and I will help you decide on the next game to play!')
     while True:
         ask(tree)
         prompt = input('Would you like to start again? ')
