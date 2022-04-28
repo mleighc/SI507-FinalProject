@@ -59,7 +59,7 @@ def pickGame(tree):
     while True:
         prompt = input(f'\nWould you like to view more information? Enter the Game ID to view the game description and cover image or "Exit" to exit the program. ')
         if prompt in ('exit','EXIT','Exit'):
-            quit()
+            break
         else:
             for item in tree[1]:
                 if item['ID'] == int(prompt):
@@ -237,6 +237,37 @@ def main():
     # print(f'Count of dictionaries with Multiplayer Difficult Strategy Games:{len(strat_diff_multi)}')
     # print(f'Count of dictionaries with Multiplayer Easy Strategy Games:{len(strat_easy_multi)}')
 
+    #######Parse Short/Long within Diff/Easy Strategy Games
+    strat_diff_multi_short = []
+    strat_diff_multi_long = []
+    strat_easy_multi_short = []
+    strat_easy_multi_long = [] 
+    for item in strat_diff_multi:
+        if item['Play Time'] < 60:
+            strat_diff_multi_short.append(item)
+        if item['Play Time'] > 60:
+            strat_diff_multi_long.append(item)
+    for item in strat_easy_multi:
+        if item['Play Time'] < 60:
+            strat_easy_multi_short.append(item)
+        if item['Play Time'] > 60:
+            strat_easy_multi_long.append(item)
+    # print(f'Count of Short Diff Strategy Games: {len(strat_diff_multi_short)}')
+    # print(f'Count of Long Diff Strategy Games: {len(strat_diff_multi_long)}')
+    # print(f'Count of Short Easy Strategy Games: {len(strat_easy_multi_short)}')
+    # print(f'Count of Long Easy Strategy Games: {len(strat_easy_multi_long)}')
+
+    ######Parsing strat_diff_multi_long down to popular and regular games to reduce length of final list
+    strat_diff_multi_long_popular = []
+    strat_diff_multi_long_regular = []
+    for item in strat_diff_multi_long:
+        if item['Hot Item?'] == 1:
+            strat_diff_multi_long_popular.append(item)
+        if item['Hot Item?'] == 0:
+            strat_diff_multi_long_regular.append(item)
+    # print(f'Count of Long Diff Popular Strategy Games: {len(strat_diff_multi_long_popular)}')
+    # print(f'Count of Long Diff Regular Strategy Games: {len(strat_diff_multi_long_regular)}')
+
     # multiplayer_types = set()
     # for item in multiplayer:
     #     for t in item['Domains']:
@@ -280,15 +311,6 @@ def main():
     ####################
     ##Loading the Tree##
     ####################
-    '''Notes for me:
-    I want to set up the tree by nesting each of the subtrees with a question and then the resulting question or game suggestion,
-    then I want to prep and store the filtered data into variables and add them into their respective locations in the tree structures.
-    Finally, I will write some functions/code to traverse the tree, ask the user questions and then pop out more questions or
-    suggested games based on their responses'''
-
-    # print(f'\nBy answering the following questions, I will be able to help you decide what game to play next!')
-
-    # [],[],[]
 
     tree = [['','Are you looking for a game to play solo or with others? '],
         [['Solo','Do you have time for a short or a long game? '],
@@ -299,8 +321,14 @@ def main():
         [['With Others','Are you with Friends or Family? '],
             [['Friends','Do you prefer Strategy or Party Games? '],
                 [['Strategy','Do you want a challenge? '],
-                    [['Yes',strat_diff_multi],None,None],
-                    [['No',strat_easy_multi],None,None]],
+                    [['Yes','Do you have time for a short or a long game? '],
+                        [['Short',strat_diff_multi_short],None,None],
+                        [['Long','Do you want to see only the most popular games? '],
+                            [['Yes',strat_diff_multi_long_popular],None,None],
+                            [['No',strat_diff_multi_long_regular],None,None]]],
+                    [['No','Do you have time for a short or a long game? '],
+                        [['Short',strat_easy_multi_short],None,None],
+                        [['Long',strat_easy_multi_long],None,None]]],
                 [['Party','Do you have time for a short or a long game? '],
                     [['Short',party_multi_short],None,None],
                     [['Long',party_multi_long],None,None]]],
@@ -310,39 +338,17 @@ def main():
                     [['Yes',fam_diff_multi],None,None],
                     [['No',fam_easy_multi],None,None]]]]]
 
-        #notes for me: need to finish the With Others section and display the lists of games before prompting user to pick a game id. Need to write a function 
-        #to print the id and set some control flow in the test function to display the right data
-
-    #tree = [['','Are you looking for a game to play solo or with others?'],
-     #   ['Solo',
-      #      ['Do you have time for a short or a long game?',
-                #['Short',
-                  #  ['Do you prefer thematic or strategy games?',
-                        #['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_theme],None],None],
-                        # ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None],
-                #['Long',
-                 #   ['Do you prefer thematic or strategy games? ',
-    #                     ['Thematic',['Enter the Game ID to view the game\'s description and cover image: ',[long_solo_theme],None],None],
-    #                     ['Strategy',['Enter the Game ID to view the game\'s description and cover image: ',[short_solo_strat],None],None]],None]],None],
-    #  #   ['With Others',
-    #   #      ['Are you with Friends or Family?',
-    #             ['Friends',
-    #                 ['Do you prefer Strategy or Party Games?',
-    #                     ['Strategy',['Do you want a challenge?',
-    #                         ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[strat_diff_multi],None],None],
-    #                         ['No',['Enter the Game ID to view the game\'s description and cover image: ',[strat_easy_multi],None],None]],None],
-    #                     ['Party',['Enter the Game ID to view the game\'s description and cover image: ',[party_multi],None],None]],None],
-    #             ['Family',
-    #                 ['Are there children in your group?',
-    #                     ['Yes',['Enter the Game ID to view the game\'s description and cover image: ',[child_multi],None],None],
-    #                     ['No',['Do you want a challenge?',['Yes',[fam_diff_multi],[]],['No',[fam_easy_multi],None]],None]],None]],None]]
-
     #################
     ##START PROGRAM##
     #################
-
-    test = ask(tree)
-    print(test)
+    prompt = input(f'Answer my questions and I will help you decide on the next game to play!')
+    while True:
+        ask(tree)
+        prompt = input('Would you like to start again? ')
+        if prompt in ('Yes','yes','Y','y','YES'):
+            continue
+        else:
+            quit()
 
 
 
