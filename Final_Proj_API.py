@@ -112,7 +112,8 @@ def main():
 ######
 r = requests.get('https://boardgamegeek.com/xmlapi2/hot?boardgame')
 obj = xmltodict.parse(r.text)
-hot_items = json.loads(json.dumps(obj))['items']['item'] #converting nested ordereddict to a dict: https://www.geeksforgeeks.org/how-to-convert-a-nested-ordereddict-to-dict/
+hot_items = json.loads(json.dumps(obj))['items']['item'] 
+#converting nested ordereddict to a dict: https://www.geeksforgeeks.org/how-to-convert-a-nested-ordereddict-to-dict/
 
 # for item in hot_items[:1]:
 #     print(item)
