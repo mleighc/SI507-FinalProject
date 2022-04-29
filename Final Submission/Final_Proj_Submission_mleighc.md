@@ -75,4 +75,4 @@ The root of the tree is the very first categorical question (`Are you looking fo
 If another `ID` is entered, the program will contnue to display the information and prompt the user to enter a new `ID`. If `Exit` is entered, the user is prompted to decide whether they'd like to begin the question/answer process from the top or end the program completely.
 
 ### Demo Video
-[title](https://www.example.com)       
+[Zoom Demo Video Link](https://umich.zoom.us/rec/share/OGETAzEnmMxGr9eMeZhQzdkCMLGGwpfEd1QzK6u6yny1Ek9X3CN2SVpO-g7aN_Kv.TF_H8uqVGdlNQmPw?startTime=1651246986000)       
