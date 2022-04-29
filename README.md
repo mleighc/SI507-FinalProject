@@ -14,6 +14,11 @@
 - Support basic interactivity by allowing a user to choose among different 
 data presentation options
 
+#### Package Requirements:
+- requests
+- xmltodict
+- webbrowser
+
 #### Files: 
 - **Final_Proj_API.py** 
   > Python File with code for accessing Board Game 
