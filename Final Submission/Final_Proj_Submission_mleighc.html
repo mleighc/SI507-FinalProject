@@ -14515,13 +14515,44 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="SI507-Final-Project-Submission">SI507 Final Project Submission<a class="anchor-link" href="#SI507-Final-Project-Submission">&#182;</a></h2>
+<h1 id="SI507-Final-Project-Submission">SI507 Final Project Submission<a class="anchor-link" href="#SI507-Final-Project-Submission">&#182;</a></h1>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Project-Code-and-Repo">Project Code and Repo<a class="anchor-link" href="#Project-Code-and-Repo">&#182;</a></h3><p>Github: <a href="https://github.com/mleighc/SI507-FinalProject.git">mleighc/SI507-FinalProject</a></p>
-<p>README:</p>
+<h3 id="Github-Repo">Github Repo<a class="anchor-link" href="#Github-Repo">&#182;</a></h3><p><a href="https://github.com/mleighc/SI507-FinalProject.git">mleighc/SI507-FinalProject</a></p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Project-Code">Project Code<a class="anchor-link" href="#Project-Code">&#182;</a></h3><p><strong>Packages</strong>:</p>
+<blockquote><p>requests<br>
+xmltodict<br>
+webbrowser</p>
+</blockquote>
+<h2 id="README">README<a class="anchor-link" href="#README">&#182;</a></h2><p><strong>Files</strong>:</p>
+<ul>
+<li><p><strong>Final_Proj_API.py</strong></p>
+<blockquote><p>Python File with code for accessing Board Game Geek's API and reading the data from XML to json in order to clean and parse the data. Then, the json objects are written to a json file.</p>
+</blockquote>
+</li>
+<li><p><strong>bgg_list.json</strong></p>
+<blockquote><p>The final file created by the code in Final_Proj_API.py.</p>
+</blockquote>
+</li>
+<li><p><strong>hot_boardgames.json</strong></p>
+<blockquote><p>Test json file used as initial example for figuring our the process of writing xmltodict and then saving that dict to json.</p>
+</blockquote>
+</li>
+<li><p><strong>Final_Proj_Tree.py</strong></p>
+<blockquote><p>Code for reading in the bgg_list.json file, parsing the data based on the outline of the tree structure and user question/answer flow, then loading that data into the tree structure. This file also include the control flow for interacting with the user and displaying necessary game information based on their answers to the computer's questions.</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>Description of the Program</strong>:</p>
+<p>First, I began by accessing about 20k board game records from a combination of xml data accessed via Board Game Geek's (BGG) API, along with a Kaggle csv of additional board game attribute data scraped from BGG by another user. Using the xmltodict package, I was able to parse the xml data and save it to a python dictionary. From there, I enhanced the dictionary objects with additional board game attributes from the Kaggle csv and saved a selected subset of the records (about 500) to a json file.</p>
+<p>After getting a better understanding of the data, I was able to think through various methods of categorizing the data (i.e. solo vs. multiplayer games, short vs. long play time, family vs. party games, etc.) in order to create a tree of questions to be asked of the user. These user questions would allow the computer to filter through the subset of the ~20k board game objects and recommend the right list for the user. From there, the user can access details from individual records to make their final selection. I used a subset of data for ease of processing on my limited computer memory, but I believe a larger subset could be worked through and loaded, as well as the addition of more subquestions to shorten the result lists that are returned.</p>
 
 </div>
 </div>
