@@ -38,12 +38,25 @@ After getting a better understanding of the data, I was able to think through va
     * Accessed data using *requests* and *xmltodict* modules
     * Enhanced original dictionary with additional attributes from below Kaggle csv
     * Cleaned and saved the dictionary to a json file to be read into Final_Proj_Tree.py file
-    * _Key Fields_: ID, Name, Year Published, Min Players, Max Players, Play Time, Min Age, Rating Average, Complexity Average, Domains, Categories
 * [Kaggle Dataset of Board Game Attributes](https://www.kaggle.com/datasets/andrewmvd/board-games)        
     * 20k+ records
     * csv of game attributes also accessed from Board Game Geek's website  
     * Read csv into Final_Proj_Tree.py
     * Used additional attributes to enhance dictionaries that represent games
+
+### Key Fields from Combined Data
+* *ID* - primary key or reference number; integer
+* *Name* - Game Title; string
+* *Year Published* - Year of publication; integer
+* *Min Players* - Minimum # of players needed; integer
+* *Max Players* - Maximum # of players needed; integer
+* *Play Time* - Length of time to play; integer
+* *Min Age* - Minimum age to play; integer
+* *Rating Average* - average rating; float
+* *Complexity Average* - average complexity i.e. is it challenging?; float
+* *Domains* - Type of Game; list
+* *Categories* - Game category or topic; list
+* *Hot Item?* - field created by me based on pulling from the HOT item list via API, which indicated most popular games at the time; boolean
 
 ### More Info on BGG Data
 * [Diving into BoardGameGeek](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html).   
@@ -65,10 +78,7 @@ The board game data, along with a series of categorical (this or that, yes or no
     
 
 ### Interaction and Presentation
-The user will initiate the python script on the command line (`python3 Final_Proj_Tree.py`). They will first see a welcome message that gives them brief instructions on how to interact with the program (`Welcome to the Board Game Recommender!
-I will ask you a series of questions in order to get to know you better.
-With this information, I can make recommendations on your next awesome board game experience!
-Let's Begin:`).        
+The user will initiate the python script on the command line (`python3 Final_Proj_Tree.py`). They will first see a welcome message that gives them brief instructions on how to interact with the program (`Welcome to the Board Game Recommender! I will ask you a series of questions in order to get to know you better. With this information, I can make recommendations on your next awesome board game experience! Let's Begin:`).        
     
 The root of the tree is the very first categorical question (`Are you looking for a game to play solo or with others?`), which bisects the board game data based on Max Player numbers. From there, they continue to answer a series of questions until the final Result Leaf is reached and a final filtered list of game dictionaries is pretty printed to the screen with its `ID` and `Name`. The user is asked to select one of the games by its `ID` in order to view the game's description, as well as access its cover image url in a web browser. Once that information is displayed to the user, they are prompted to decide whether they'd like to view the details of another game or `Exit` the program.        
       
