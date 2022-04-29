@@ -369,36 +369,36 @@ def main():
     #################LOAD TREE STRUCTURE WITH PARSED BOARD GAME DATA####################
     ####################################################################################
 
-    tree = [['','Are you looking for a game to play solo or with others? '],
-        [['Solo','Do you have time for a short or a long game? '],
-            [['Short','Do you prefer thematic or strategy games? '],
-                [['Thematic',short_solo_theme], None,None],
-                [['Strategy',short_solo_strat], None,None]],
-            [['Long',long_solo],None,None]],
-        [['With Others','Are you with Friends or Family? '],
-            [['Friends','Do you prefer Strategy or Party Games? '],
-                [['Strategy','Do you want a challenge? '],
-                    [['Yes','Do you have time for a short or a long game? '],
-                        [['Short',strat_diff_multi_short],None,None],
-                        [['Long','Do you want to see only the most popular games? '],
-                            [['Yes',strat_diff_multi_long_popular],None,None],
-                            [['No',strat_diff_multi_long_regular],None,None]]],
-                    [['No','Do you have time for a short or a long game? '],
-                        [['Short',strat_easy_multi_short],None,None],
-                        [['Long',strat_easy_multi_long],None,None]]],
-                [['Party','Do you have time for a short or a long game? '],
-                    [['Short',party_multi_short],None,None],
-                    [['Long',party_multi_long],None,None]]],
-            [['Family','Are there children in your group? '],
-                [['Yes',child_multi],None,None],
-                [['No','Do you want a challenge? '],
-                    [['Yes',fam_diff_multi],None,None],
-                    [['No',fam_easy_multi],None,None]]]]]
+    tree = (('','Are you looking for a game to play solo or with others? '),
+        (('Solo','Do you have time for a short or a long game? '),
+            (('Short','Do you prefer thematic or strategy games? '),
+                (('Thematic',short_solo_theme), None,None),
+                (('Strategy',short_solo_strat), None,None)),
+            (('Long',long_solo),None,None)),
+        (('With Others','Are you with Friends or Family? '),
+            (('Friends','Do you prefer Strategy or Party Games? '),
+                (('Strategy','Do you want a challenge? '),
+                    (('Yes','Do you have time for a short or a long game? '),
+                        (('Short',strat_diff_multi_short),None,None),
+                        (('Long','Do you want to see only the most popular games? '),
+                            (('Yes',strat_diff_multi_long_popular),None,None),
+                            (('No',strat_diff_multi_long_regular),None,None))),
+                    (('No','Do you have time for a short or a long game? '),
+                        (('Short',strat_easy_multi_short),None,None),
+                        (('Long',strat_easy_multi_long),None,None))),
+                (('Party','Do you have time for a short or a long game? '),
+                    (('Short',party_multi_short),None,None),
+                    (('Long',party_multi_long),None,None))),
+            (('Family','Are there children in your group? '),
+                (('Yes',child_multi),None,None),
+                (('No','Do you want a challenge? '),
+                    (('Yes',fam_diff_multi),None,None),
+                    (('No',fam_easy_multi),None,None)))))
 
     ##########################################################
     #################QUESTION CONTROL FLOW####################
     ##########################################################
-    print(f'Answer my questions and I will help you decide on the next game to play!')
+    print(f'''\nWelcome to the Board Game Recommender!\nI will ask you a series of questions in order to get to know you better.\nWith this information, I can make recommendations on your next awesome board game experience!\nLet's Begin:\n''')
     while True:
         ask(tree)
         prompt = input('Would you like to start again? ')
