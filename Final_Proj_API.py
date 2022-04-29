@@ -216,7 +216,7 @@ for item in bgg:
     d.clear()
 # print(met_dog_data)
 # print(len(bgg_list))
-# print(bgg_list[0])
+print(bgg_list[0])
 
 #just pulling a subset to be loaded into the tree - since 20k+ is too many for my computer to handle during testing
 bgg_subset = bgg_list[:1000:2]

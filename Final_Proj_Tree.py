@@ -93,14 +93,17 @@ def pickGame(tree):
             None
     '''
     while True:
-        prompt = input(f'\nWould you like to view more information? Enter the Game ID to view the game description and cover image or "Exit" to exit the program. ')
-        if prompt in ('exit','EXIT','Exit'):
-            break
-        else:
-            for item in tree[1]:
-                if item['ID'] == int(prompt):
-                    viewDesc(item)
-                    viewImage(item)
+        prompt = input(f'\nWould you like to view more information? Enter a Game ID to view the game description and cover image or "Exit" to exit the program. ')
+        try:
+            if prompt in ('exit','EXIT','Exit'):
+                break
+            else:
+                for item in tree[1]:
+                    if item['ID'] == int(prompt):
+                        viewDesc(item)
+                        viewImage(item)
+        except:
+           print(f'\nSorry, I didn\'t understand that.')
 
 def isListResult(tree):
     '''
